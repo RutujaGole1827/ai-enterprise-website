@@ -1,0 +1,12 @@
+<svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-4" y="-4" width="62" height="62"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(2px);clip-path:url(#bgblur_0_4920_1642_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="4">
+<rect width="54" height="54" rx="8" fill="#002060"/>
+<path d="M15 27C15 21.3431 15 18.5147 16.7574 16.7574C18.5147 15 21.3431 15 27 15C32.6568 15 35.4853 15 37.2426 16.7574C39 18.5147 39 21.3431 39 27C39 32.6568 39 35.4853 37.2426 37.2426C35.4853 39 32.6568 39 27 39C21.3431 39 18.5147 39 16.7574 37.2426C15 35.4853 15 32.6568 15 27Z" stroke="white" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M20.25 31.5L23.0128 23.2115C23.1545 22.7866 23.5521 22.5 24 22.5C24.4479 22.5 24.8456 22.7866 24.9872 23.2115L27.75 31.5M21.75 28.5H26.25" stroke="white" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M32.25 22.5V31.5" stroke="white" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M21 12V15M33 12V15M27 12V15M21 39V42M27 39V42M33 39V42M42 33H39M15 21H12M15 33H12M15 27H12M42 21H39M42 27H39" stroke="white" stroke-width="1.15" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_4920_1642_clip_path" transform="translate(4 4)"><rect width="54" height="54" rx="8"/>
+</clipPath></defs>
+</svg>
