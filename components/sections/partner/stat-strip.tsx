@@ -81,16 +81,16 @@ export function StatStrip({
                 </>
               ) : (
                 <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/brand/partners/microsoft.svg"
-                    alt=""
+                  {/* A status ("1 official partner"), not a quantity someone
+                      would count up to, but styled exactly like the other
+                      four metrics' numbers so the row reads as one set. */}
+                  <span
                     aria-hidden="true"
-                    width={48}
-                    height={48}
-                    className="size-10 lg:size-12"
-                  />
-                  <span className="text-[0.9375rem] font-medium leading-snug text-ink">
+                    className="text-4xl font-semibold tracking-[-0.04em] text-ink lg:text-5xl"
+                  >
+                    1
+                  </span>
+                  <span className="text-[0.9375rem] leading-snug text-muted">
                     {item.label}
                   </span>
                 </>

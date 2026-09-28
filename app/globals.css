@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* Registered so the conic-gradient angle below can be animated directly —
+   browsers that don't support @property just keep the gradient at its
+   initial angle instead of sweeping, which is a fine fallback. Used by
+   .animate-gradient-border (components/ui/spotlight-card.tsx). */
+@property --gradient-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes gradient-border-spin {
+  to {
+    --gradient-angle: 360deg;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    THEME STRATEGY
    Single strategy for the whole project: semantic CSS custom properties.
@@ -94,9 +110,11 @@
   --color-on-navy: var(--on-navy);
   --color-on-navy-muted: var(--on-navy-muted);
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 
   /* SHAPE LOCK. Documented, followed everywhere:
      interactive controls 10px, surfaces 16px, badges full. */
@@ -223,7 +241,7 @@
   .brand-ground {
     background-image: radial-gradient(
       120% 85% at 88% 0%,
-      color-mix(in oklab, var(--brand-navy) 12%, transparent) 0%,
+      color-mix(in oklab, var(--brand-navy) 18%, transparent) 0%,
       transparent 62%
     );
   }
@@ -231,7 +249,7 @@
   .dark .brand-ground {
     background-image: radial-gradient(
       120% 85% at 88% 0%,
-      color-mix(in oklab, #3e8de0 10%, transparent) 0%,
+      color-mix(in oklab, #3e8de0 15%, transparent) 0%,
       transparent 62%
     );
   }
@@ -239,13 +257,30 @@
   /* Hairline grid used as a *background texture* inside specific bento cells.
      Not drawn across the page as decoration. */
   .bg-hairline-grid {
-    background-image: linear-gradient(
-        to right,
-        var(--line) 1px,
-        transparent 1px
-      ),
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
       linear-gradient(to bottom, var(--line) 1px, transparent 1px);
     background-size: 44px 44px;
+  }
+
+  /* Hides the native scrollbar on a horizontally scrollable row (the
+     floating dock, components/ui/floating-dock.tsx) while keeping it
+     scrollable by wheel, trackpad and touch. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Rotating gradient-border wash (components/ui/spotlight-card.tsx). Paused
+     by default so an invisible (opacity-0, not yet hovered) card isn't
+     spending cycles animating; the card's own hover/focus state starts it. */
+  .animate-gradient-border {
+    animation: gradient-border-spin 3s linear infinite;
+    animation-play-state: paused;
   }
 
   .marquee-mask {

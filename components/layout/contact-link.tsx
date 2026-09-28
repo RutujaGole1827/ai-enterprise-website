@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 
 /** Routes that render the Contact section, so `#contact` resolves on them. */
-const PAGES_WITH_CONTACT = new Set(["/", "/partners-microsoft"]);
+const PAGES_WITH_CONTACT = new Set(["/"]);
 
 /**
  * Where "contact" points from the current route: the on-page form when the

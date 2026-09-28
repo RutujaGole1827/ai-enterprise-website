@@ -46,13 +46,45 @@ export const hero = {
  * site and recoloured to `currentColor` by scripts/build-brand-svg.mjs, so
  * they follow the page token in both themes.
  */
-export const trustedBy = [
+export type ClientLogo =
+  | { name: string; mark: BrandSvgKey }
+  | { name: string; image: { src: string; width: number; height: number } };
+
+/**
+ * Every client mark shown on the live exponentia.ai homepage's "Our Clients"
+ * marquee, in that marquee's order. Marks are the same monochrome brand SVGs
+ * (recoloured to `currentColor` by scripts/build-brand-svg.mjs) used
+ * elsewhere in this file; `nanavatiMax` is the one logo that ships as a
+ * source-resolution PNG because Exponentia's own export embeds it as a raster
+ * image rather than vector paths.
+ */
+export const clients: ClientLogo[] = [
+  { name: "Fino Payments Bank", mark: "clientsFino" },
+  { name: "Avendus", mark: "clientsAvendus" },
+  { name: "Godrej", mark: "clientsGodrej" },
   { name: "PayPal", mark: "clientsPaypal" },
+  { name: "Larsen & Toubro", mark: "clientsLarsenToubro" },
+  { name: "TUI", mark: "clientsTui" },
   { name: "Kotak Mahindra Bank", mark: "clientsKotak" },
-  { name: "Adani", mark: "clientsAdani" },
-  { name: "Capita", mark: "clientsCapita" },
   { name: "SSP", mark: "clientsSsp" },
+  { name: "Convatec", mark: "clientsConvatec" },
+  { name: "Capita", mark: "clientsCapita" },
+  { name: "Jefferson Health", mark: "clientsJeffersonHealth" },
+  { name: "Mankind Pharma", mark: "clientsMankind" },
+  { name: "NYU Langone Health", mark: "clientsNyuLangone" },
+  { name: "Emory University", mark: "clientsEmory" },
+  { name: "PayU", mark: "clientsPayu" },
+  { name: "AGD Bank", mark: "clientsAgdBank" },
+  { name: "Adani", mark: "clientsAdani" },
+  {
+    name: "Nanavati Max Super Speciality Hospital",
+    image: { src: "/brand/clients/nanavati-max.png", width: 957, height: 261 },
+  },
+  { name: "Xanadu", mark: "clientsXanadu" },
+  { name: "Centrum", mark: "clientsCentrum" },
+  { name: "BSV", mark: "clientsBsv" },
   { name: "DS Smith", mark: "clientsDssmith" },
+  { name: "The IN Group", mark: "clientsTheInGroup" },
 ] as const;
 
 export type Solution = {
@@ -159,7 +191,8 @@ export const journey = [
     id: "architect",
     label: "Architect",
     body: "A reference architecture and delivery plan sized to your cloud, your team and the budget you actually have.",
-    detail: "Reviewed with your platform and security leads before anyone writes code.",
+    detail:
+      "Reviewed with your platform and security leads before anyone writes code.",
   },
   {
     id: "industrialize",
@@ -414,39 +447,148 @@ export const navLinks: NavLink[] = [
   { label: "Insights", href: "/#insights", menu: null },
 ];
 
+/** The live exponentia.ai footer's own "Your AI Acceleration Partner" block. */
+export const footerIntro = {
+  heading: "Your AI Acceleration Partner",
+  body: "Exponentia.ai engineers AI-native enterprises. Using a four-pillar operating model and proprietary accelerators, we move agentic AI from pilot into governed production so enterprises across the globe realize measurable business value at scale.",
+};
+
+export type SocialLink = {
+  label: string;
+  href: string;
+  icon: "facebook" | "x" | "linkedin" | "youtube" | "instagram";
+};
+
+/** The live site's own social accounts, in its own icon order. */
+export const socialLinks: SocialLink[] = [
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/Exponentiaai/",
+    icon: "facebook",
+  },
+  { label: "X", href: "https://x.com/exponentia_ai", icon: "x" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/exponentia-datalabs/",
+    icon: "linkedin",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@exponentiaai7044",
+    icon: "youtube",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/exponentia.ai_",
+    icon: "instagram",
+  },
+];
+
+export type Certification = {
+  label: string;
+  src: string;
+  width: number;
+  height: number;
+};
+
+/** The two ISO badges from the live footer, sourced from its own CDN. */
+export const certifications: Certification[] = [
+  {
+    label: "ISO 22301:2019 (BCMS) certified company",
+    src: "/brand/certifications/iso-22301.png",
+    width: 166,
+    height: 170,
+  },
+  {
+    label: "ISO 27001:2022 certified company",
+    src: "/brand/certifications/iso-27001.png",
+    width: 166,
+    height: 170,
+  },
+];
+
+/**
+ * Matches the live exponentia.ai footer's own column headings and link
+ * labels (including its two columns both literally headed "Industries").
+ * A link points into this project only where that heading genuinely exists
+ * here (Our Journey → the home page's journey section, Partners → the one
+ * partner page this project has, the industry links → the home page's
+ * industries section, Client Success Stories / Blogs → case studies /
+ * insights); every other label is the live site's own product, team or
+ * content-hub name with no page behind it in this project, so it's a "#"
+ * placeholder rather than a fabricated destination.
+ */
 export const footerColumns = [
+  {
+    heading: "About Us",
+    links: [
+      { label: "Our Journey", href: "/#journey" },
+      { label: "Our Values", href: "#" },
+      { label: "Our Leadership Team", href: "#" },
+      { label: "Partners", href: "/partners-microsoft" },
+    ],
+  },
+  {
+    heading: "Our Expertise",
+    links: [
+      { label: "AI Consulting", href: "#" },
+      { label: "AI Product Engineering", href: "#" },
+      { label: "Modernize AI + Data Platform", href: "#" },
+      { label: "AI & Analytics Solutions", href: "#" },
+      { label: "Managed Services", href: "#" },
+    ],
+  },
   {
     heading: "Solutions",
     links: [
-      { label: "Data platform modernization", href: "/#solutions" },
-      { label: "Machine learning engineering", href: "/#solutions" },
-      { label: "Generative AI systems", href: "/#solutions" },
-      { label: "Data governance and trust", href: "/#solutions" },
+      { label: "LakeHouseXponent", href: "#" },
+      { label: "MigrationXponent", href: "#" },
+      { label: "AIXponent", href: "#" },
+      { label: "LogisticsXponent", href: "#" },
+      { label: "Asset ManagementXponent", href: "#" },
+      { label: "WealthXponent", href: "#" },
     ],
   },
   {
     heading: "Industries",
     links: [
-      { label: "Manufacturing", href: "/#industries" },
-      { label: "Financial services", href: "/#industries" },
-      { label: "Retail and CPG", href: "/#industries" },
-      { label: "Energy and utilities", href: "/#industries" },
+      { label: "OneTap", href: "#" },
+      { label: "Smart ManufacturingXponent", href: "#" },
+      { label: "PSI", href: "#" },
+      { label: "GenTrust", href: "#" },
+      { label: "Agentic AI for: CPG / Manufacturing / BFSI", href: "#" },
     ],
   },
   {
-    heading: "Company",
+    heading: "Careers",
+    links: [{ label: "Careers at Exponentia", href: "#" }],
+  },
+  {
+    heading: "Insights",
     links: [
-      { label: "How we work", href: "/#journey" },
-      { label: "Case studies", href: "/#case-studies" },
-      { label: "Insights", href: "/#insights" },
-      { label: "Microsoft partnership", href: "/partners-microsoft" },
-      { label: "Contact", href: "#contact" },
+      { label: "Client Success Stories", href: "/#case-studies" },
+      { label: "Blogs", href: "/#insights" },
+      { label: "Webinars", href: "#" },
+      { label: "Downloads", href: "#" },
+      { label: "News & PR", href: "#" },
+    ],
+  },
+  {
+    heading: "Industries",
+    links: [
+      { label: "Insurance", href: "/#industries" },
+      { label: "Manufacturing", href: "/#industries" },
+      { label: "CPG & Retail", href: "/#industries" },
+      { label: "Financial Services", href: "/#industries" },
+      { label: "Banking", href: "/#industries" },
+      { label: "Healthcare and Life Sciences", href: "/#industries" },
     ],
   },
 ];
 
 export const footerLegal = [
+  { label: "Copyright", href: "#" },
   { label: "Privacy", href: "#" },
   { label: "Terms", href: "#" },
-  { label: "Accessibility", href: "#" },
+  { label: "Sitemap", href: "#" },
 ];

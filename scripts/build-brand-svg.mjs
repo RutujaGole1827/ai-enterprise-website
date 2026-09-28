@@ -27,6 +27,28 @@ const MONOCHROME = {
   "clients/dssmith.svg": "#A3B8D4",
   "clients/payu.svg": "#A3B8D4",
   "clients/mankind.svg": "#A3B8D4",
+  "clients/fino.svg": "#A3B8D4",
+  "clients/avendus.svg": "#A3B8D4",
+  "clients/godrej.svg": "#A3B8D4",
+  "clients/larsen-toubro.svg": "#A3B8D4",
+  "clients/tui.svg": "#A3B8D4",
+  "clients/convatec.svg": "#A3B8D4",
+  "clients/jefferson-health.svg": "#A3B8D4",
+  "clients/nyu-langone.svg": "#A3B8D4",
+  "clients/emory.svg": "#A3B8D4",
+  "clients/agd-bank.svg": "#A3B8D4",
+  "clients/xanadu.svg": "#A3B8D4",
+  "clients/centrum.svg": "#A3B8D4",
+  "clients/bsv.svg": "#A3B8D4",
+  "clients/the-in-group.svg": "#A3B8D4",
+  // Pidilite's real mark (Wikimedia Commons) is multi-colour (a navy
+  // wordmark, a yellow sun, a blue gradient wave) pre-flattened to this one
+  // placeholder so it recolours the same way every other client mark does,
+  // rather than carrying its own colours into a page where every other
+  // logo is monochrome. Uses #A3B8D4 rather than black: svgo treats a flat
+  // #000000 fill as SVG's own implicit default and strips the attribute
+  // entirely, which silently breaks the exact-string replace below.
+  "clients/pidilite.svg": "#A3B8D4",
 };
 
 function prepare(file, flat) {
@@ -48,7 +70,9 @@ function prepare(file, flat) {
 }
 
 const entries = Object.entries(MONOCHROME).map(([file, flat]) => {
-  const key = file.replace(/\.svg$/, "").replace(/[\/-](.)/g, (_, c) => c.toUpperCase());
+  const key = file
+    .replace(/\.svg$/, "")
+    .replace(/[\/-](.)/g, (_, c) => c.toUpperCase());
   return `  ${key}: ${JSON.stringify(prepare(file, flat))},`;
 });
 

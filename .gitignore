@@ -25,3 +25,6 @@ desktop.ini
 # AI design-guidance docs, kept locally only
 SKILL.md
 frontend_design_skill.md
+
+.vercel
+.env*

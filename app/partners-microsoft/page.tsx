@@ -10,9 +10,8 @@ import {
   microsoftPillars,
   microsoftTestimonials,
 } from "@/lib/partners/microsoft";
-import { Contact } from "@/components/sections/contact";
-import { CtaBand } from "@/components/sections/cta-band";
-import { Testimonials } from "@/components/sections/testimonials";
+import { CircularTestimonials } from "@/components/sections/partner/circular-testimonials";
+import { FinalCta } from "@/components/sections/partner/final-cta";
 import { IndustryPanels } from "@/components/sections/partner/industry-panels";
 import { OfferingExplorer } from "@/components/sections/partner/offering-explorer";
 import { PartnerHero } from "@/components/sections/partner/partner-hero";
@@ -39,10 +38,13 @@ export const metadata: Metadata = {
  *   StatStrip         certification badges over a hairline figure grid
  *   ValueBento        2 + 3 bento with pointer spotlight
  *   OfferingExplorer  list + detail panel (accordion below lg)
- *   IndustryPanels    expanding panel row
- *   Testimonials      typographic quote layout, no cards
- *   CtaBand           the page's one navy block
- *   Contact           copy + form split, so "Contact Our Team" stays here
+ *   IndustryPanels        expanding panel row
+ *   CircularTestimonials  stacked-circle avatars, crossfading quote
+ *   FinalCta              the page's one navy block, its own close
+ *
+ * No Contact section: "Contact Our Team" (the CTA band) and "Book a
+ * consultation" (the header) both send visitors to the home page's form
+ * instead — see components/layout/contact-link.tsx.
  */
 export default function MicrosoftPartnerPage() {
   return (
@@ -58,9 +60,11 @@ export default function MicrosoftPartnerPage() {
       />
       <OfferingExplorer {...microsoftOfferings} />
       <IndustryPanels {...microsoftIndustries} />
-      <Testimonials title="Client Testimonials" items={microsoftTestimonials} />
-      <CtaBand {...microsoftCta} />
-      <Contact />
+      <CircularTestimonials
+        title="Client Testimonials"
+        items={microsoftTestimonials}
+      />
+      <FinalCta {...microsoftCta} />
     </>
   );
 }

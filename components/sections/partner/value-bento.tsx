@@ -29,7 +29,8 @@ const ICONS = {
  *   sm  1 col
  *
  * Each card is a SpotlightCard: a pointer-following wash on fine pointers,
- * nothing on touch. No scroll-triggered entrance.
+ * plus a moving gradient border that only appears on hover. No
+ * scroll-triggered entrance.
  */
 export function ValueBento({
   title,

@@ -148,7 +148,7 @@ export function PartnerHero({
                       onPointerEnter={() => setActive(index)}
                       onPointerLeave={() => setActive(null)}
                       className={cn(
-                        "inline-flex h-9 items-center whitespace-nowrap rounded-[var(--radius-control)] border bg-canvas px-3 text-xs font-medium text-ink transition-colors duration-300 sm:h-10 sm:px-3.5 sm:text-sm",
+                        "inline-flex h-9 items-center whitespace-nowrap rounded-[var(--radius-control)] border bg-canvas px-3 text-xs font-medium text-ink transition-colors duration-300 hover:bg-surface-2 sm:h-10 sm:px-3.5 sm:text-sm",
                         active === index
                           ? "border-accent"
                           : "border-line-strong",

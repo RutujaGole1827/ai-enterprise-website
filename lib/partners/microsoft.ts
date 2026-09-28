@@ -223,11 +223,25 @@ export const microsoftTestimonials: Testimonial[] = [
       "Great clarity on the solutioning and work with a great collaborative approach.",
     name: "Deepti Mittal",
     role: "Microsoft AE for Pidilite",
+    // Pidilite's real logo, sourced from Wikimedia Commons (the earlier
+    // asset found under that name on the live site was an unrelated stock
+    // photo, not a logo) and flattened to this project's single-colour mark
+    // convention — see the comment in scripts/build-brand-svg.mjs.
+    mark: "clientsPidilite" satisfies BrandSvgKey,
   },
 ];
 
+/**
+ * The closing panel. Title, body and the single "Contact Our Team" CTA are
+ * exactly the live exponentia.ai/partners-microsoft page's own content for
+ * this section — no eyebrow, second CTA, or diagram: the live page has
+ * none. (This section has carried extra content in earlier passes; each
+ * time, it's come back to just this.)
+ */
 export const microsoftCta = {
   title: "Let’s Build the Future of Data & AI Together",
+  /** The phrase inside `title` that gets the white → cyan gradient treatment. */
+  titleHighlight: "Data & AI",
   body: "Whether you're migrating from Qlik, Tableau, or SAP BO, or building a new AI-powered data estate, Exponentia.ai brings the tools, talent, and frameworks to make your Microsoft journey seamless and impactful.",
-  cta: { label: "Contact Our Team", href: "#contact" } satisfies Cta,
+  ctaLabel: "Contact Our Team",
 };
