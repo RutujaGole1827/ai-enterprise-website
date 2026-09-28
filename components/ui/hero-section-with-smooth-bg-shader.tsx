@@ -7,6 +7,7 @@ interface HeroSectionProps {
   title?: string;
   highlightText?: string;
   description?: string;
+  subheading?: string;
   buttonText?: string;
   buttonHref?: string;
   onButtonClick?: () => void;
@@ -36,9 +37,8 @@ const DEFAULT_LIGHT_COLORS = [
   "#dbf4a4",
 ];
 
-/** Deep navy / dark teal / muted blue / dark violet / subtle emerald —
- * genuinely darker (not the light palette under a black veil), so the
- * shader itself changes with the theme, not just its overlay. */
+/** Deep navy / dark teal / muted blue / dark violet / subtle emerald /
+ * deep indigo — the dark-mode palette. */
 const DEFAULT_DARK_COLORS = [
   "#0b1220",
   "#0f3a37",
@@ -64,11 +64,12 @@ const DEFAULT_DARK_COLORS = [
  *    in globals.css) and `text-ink/80` for the description, replacing a
  *    hardcoded `text-white` that read fine in dark mode but failed in
  *    light mode.
- *  - a solid `bg-accent`/`text-accent-contrast` pill for the CTA: a fixed
- *    saturated color reads reliably over a moving multi-color gradient in
- *    both themes, rather than a border/ghost button whose own contrast
- *    would need separate light/dark tuning against a background that
- *    itself changes per theme.
+ *  - a solid `bg-accent`/`text-accent-contrast` pill for the CTA, with an
+ *    explicit `dark:text-white` override: `--accent-contrast` is a
+ *    near-black in dark mode (meant for the solid, always-orange accent
+ *    surfaces elsewhere on the site), but here it's sitting over the
+ *    MeshGradient rather than a flat surface, so a fixed white reads more
+ *    reliably against it.
  *  - the shadcn tokens the original used (`bg-background`, `border-card`)
  *    don't exist in this project's Tailwind theme, so they're swapped for
  *    the equivalent tokens this project actually has (`bg-canvas`,
@@ -90,6 +91,7 @@ export function HeroSection({
   title = "Transforming the CPG Industry with",
   highlightText = "AI",
   description = "Empowering consumer packaged goods companies with AI-driven solutions to accelerate growth, improve efficiency, and deliver exceptional customer experiences.",
+  subheading,
   buttonText = "",
   buttonHref,
   onButtonClick,
@@ -175,6 +177,12 @@ export function HeroSection({
             {title} <span className="text-accent">{highlightText}</span>
           </h1>
 
+          {subheading ? (
+            <p className="mb-3 text-base sm:text-lg font-semibold tracking-[-0.01em] text-accent">
+              {subheading}
+            </p>
+          ) : null}
+
           <p
             className={`text-lg sm:text-xl text-ink/80 text-pretty max-w-2xl mx-auto leading-relaxed mb-10 px-4 ${descriptionClassName}`}
           >
@@ -185,14 +193,14 @@ export function HeroSection({
             buttonHref ? (
               <a
                 href={buttonHref}
-                className={`inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-semibold text-accent-contrast shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)] transition-colors duration-200 hover:bg-accent-hover ${buttonClassName}`}
+                className={`inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-semibold text-accent-contrast dark:text-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)] transition-colors duration-200 hover:bg-accent-hover ${buttonClassName}`}
               >
                 {buttonText}
               </a>
             ) : (
               <button
                 onClick={onButtonClick}
-                className={`inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-semibold text-accent-contrast shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)] transition-colors duration-200 hover:bg-accent-hover ${buttonClassName}`}
+                className={`inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base font-semibold text-accent-contrast dark:text-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.35)] transition-colors duration-200 hover:bg-accent-hover ${buttonClassName}`}
               >
                 {buttonText}
               </button>

@@ -1,11 +1,12 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowRight } from "@phosphor-icons/react";
 
-import type { CpgCaseStudy, CpgCaseStudyId } from "@/lib/industries/cpg";
+import type { CpgCaseStudy } from "@/lib/industries/cpg";
 import { cn } from "@/lib/utils";
+import { ButtonColorful } from "@/components/ui/button-colorful";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 /** This section's own accent — a blue distinct from the site's orange
@@ -16,13 +17,19 @@ const BLUE = "#3B82F6";
 /** How long the featured case study stays up before auto-advancing. */
 const AUTOPLAY_MS = 6000;
 
-/** Per-tag badge colors: "Blogs" (content type) reads as a neutral
+/** Per-tag badge classes: "Blogs" (content type) reads as a neutral
  * slate badge, "CPG" (the industry) picks up this section's own blue so
  * it reads as the more important of the two at a glance. Any other tag
- * value falls back to the neutral slate treatment rather than guessing. */
-const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  cpg: { bg: "rgba(59,130,246,0.12)", text: BLUE },
-  blogs: { bg: "rgba(100,116,139,0.12)", text: "#64748b" },
+ * value falls back to the neutral slate treatment rather than guessing.
+ *
+ * CPG's background is a `dark:` variant, not the same rgba re-applied —
+ * at the light-mode 10% tint, that same blue reads as barely-there against
+ * this card's near-black dark-mode surface, so dark mode gets a stronger
+ * fill and a lighter blue text to keep it legible and clearly the more
+ * prominent badge in both themes, not just light mode. */
+const TAG_COLORS: Record<string, string> = {
+  cpg: "bg-[#3B82F6]/10 text-[#3B82F6] dark:bg-[#3B82F6]/30 dark:text-[#93c5fd]",
+  blogs: "bg-slate-500/10 text-slate-500",
 };
 
 /**
@@ -42,12 +49,9 @@ const TAG_COLORS: Record<string, { bg: string; text: string }> = {
  * genuinely different composition, not the desktop layout just reflowed
  * to one column. `lg:` and up switches to the two-column layout.
  *
- * Every title, tag, date, client line and CTA is the live page's own —
- * it has no body copy or metrics for any of these three posts, so none is
- * added here. Each gets its own small abstract SVG keyed to its real
- * subject (a resource/logistics flow, a many-sources-into-one-platform
- * merge, and a cloud/dashboard motif) — decorative only, inventing no
- * numbers.
+ * Every title, tag, date, client line, CTA and image is the live page's
+ * own — it has no body copy or metrics for any of these three posts, so
+ * none is added here.
  */
 export function CaseStudiesShowcase({
   heading,
@@ -113,18 +117,17 @@ export function CaseStudiesShowcase({
               >
                 <div className="flex flex-col">
                   <div className="flex flex-wrap gap-2">
-                    {featured.tags.map((tag) => {
-                      const colors = TAG_COLORS[tag.toLowerCase()] ?? TAG_COLORS.blogs;
-                      return (
-                        <span
-                          key={tag}
-                          className="rounded-full px-2.5 py-1 text-xs font-medium"
-                          style={{ background: colors.bg, color: colors.text }}
-                        >
-                          {tag}
-                        </span>
-                      );
-                    })}
+                    {featured.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={cn(
+                          "rounded-full px-2.5 py-1 text-xs font-medium",
+                          TAG_COLORS[tag.toLowerCase()] ?? TAG_COLORS.blogs,
+                        )}
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
 
                   <h3 className="mt-4 line-clamp-2 text-balance text-2xl font-semibold leading-tight text-ink sm:text-3xl">
@@ -138,23 +141,21 @@ export function CaseStudiesShowcase({
                     {featured.date}
                   </p>
 
-                  <a
+                  <ButtonColorful
                     href={featured.ctaHref}
-                    className="group mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-ink transition-colors duration-300"
-                    onMouseEnter={(e) => e.currentTarget.style.setProperty("color", BLUE)}
-                    onMouseLeave={(e) => e.currentTarget.style.removeProperty("color")}
-                  >
-                    {featured.ctaLabel}
-                    <ArrowRight
-                      size={16}
-                      weight="bold"
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    />
-                  </a>
+                    label={featured.ctaLabel}
+                    className="mt-6 w-fit"
+                  />
                 </div>
 
-                <div className="flex items-center justify-center">
-                  <CaseStudyVisual id={featured.id} reduce={reduce} />
+                <div className="relative aspect-[16/9] w-full max-w-sm mx-auto overflow-hidden rounded-[var(--radius-control)] md:aspect-[4/3] md:max-w-none md:mx-0">
+                  <Image
+                    src={featured.image}
+                    alt={featured.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 45vw"
+                    className="object-cover"
+                  />
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -211,149 +212,5 @@ export function CaseStudiesShowcase({
         </motion.div>
       </div>
     </section>
-  );
-}
-
-function CaseStudyVisual({ id, reduce }: { id: CpgCaseStudyId; reduce: boolean | null }) {
-  if (id === "data-platform-modernization") return <PlatformMergeVisual reduce={reduce} />;
-  if (id === "cloud-insights-insurance") return <CloudAnalyticsVisual reduce={reduce} />;
-  return <LogisticsFlowVisual reduce={reduce} />;
-}
-
-/** Resource Prediction & Optimization (ports/logistics): scattered
- * resource nodes flowing into one hub, one pulse travelling each line at
- * a time. */
-function LogisticsFlowVisual({ reduce }: { reduce: boolean | null }) {
-  const hub = { x: 150, y: 90 };
-  const nodes = [
-    { x: 30, y: 30 },
-    { x: 30, y: 90 },
-    { x: 30, y: 150 },
-    { x: 150, y: 20 },
-    { x: 150, y: 160 },
-  ];
-
-  return (
-    <svg viewBox="0 0 200 180" className="h-[200px] w-full max-w-xs" aria-hidden="true">
-      {nodes.map((n, i) => {
-        const d = `M ${n.x} ${n.y} L ${hub.x} ${hub.y}`;
-        return (
-          <g key={i}>
-            <path d={d} stroke="rgba(148,163,184,0.3)" strokeWidth="1" fill="none" />
-            <rect x={n.x - 5} y={n.y - 5} width={10} height={10} rx={2} fill="rgba(148,163,184,0.5)" />
-            {!reduce ? (
-              <motion.circle
-                r={2.5}
-                fill={BLUE}
-                initial={{ offsetDistance: "0%", opacity: 0 }}
-                animate={{ offsetDistance: "100%", opacity: [0, 1, 1, 0] }}
-                transition={{ duration: 2.2, delay: i * 0.35, repeat: Infinity, ease: "linear" }}
-                style={{ offsetPath: `path('${d}')` }}
-              />
-            ) : null}
-          </g>
-        );
-      })}
-      <motion.circle
-        cx={hub.x}
-        cy={hub.y}
-        r={14}
-        fill={BLUE}
-        animate={reduce ? undefined : { r: [14, 16, 14] }}
-        transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <circle cx={hub.x} cy={hub.y} r={6} fill="#ffffff" />
-    </svg>
-  );
-}
-
-/** Data Platform Modernization: several fragmented sources merging into
- * one unified platform block. */
-function PlatformMergeVisual({ reduce }: { reduce: boolean | null }) {
-  const sources = [
-    { x: 20, y: 25 },
-    { x: 20, y: 65 },
-    { x: 20, y: 105 },
-    { x: 20, y: 145 },
-  ];
-  const platform = { x: 150, y: 85, w: 40, h: 60 };
-
-  return (
-    <svg viewBox="0 0 200 180" className="h-[200px] w-full max-w-xs" aria-hidden="true">
-      {sources.map((s, i) => {
-        const d = `M ${s.x + 12} ${s.y} L ${platform.x - platform.w / 2} ${platform.y}`;
-        return (
-          <g key={i}>
-            <path d={d} stroke="rgba(148,163,184,0.3)" strokeWidth="1" fill="none" />
-            <rect x={s.x - 12} y={s.y - 9} width={24} height={18} rx={3} fill="rgba(148,163,184,0.45)" />
-            {!reduce ? (
-              <motion.circle
-                r={2.5}
-                fill={BLUE}
-                initial={{ offsetDistance: "0%", opacity: 0 }}
-                animate={{ offsetDistance: "100%", opacity: [0, 1, 1, 0] }}
-                transition={{ duration: 2, delay: i * 0.3, repeat: Infinity, ease: "linear" }}
-                style={{ offsetPath: `path('${d}')` }}
-              />
-            ) : null}
-          </g>
-        );
-      })}
-      <rect
-        x={platform.x - platform.w / 2}
-        y={platform.y - platform.h / 2}
-        width={platform.w}
-        height={platform.h}
-        rx={8}
-        fill="rgba(59,130,246,0.12)"
-        stroke={BLUE}
-        strokeWidth="1.5"
-      />
-      <motion.rect
-        x={platform.x - platform.w / 2 + 8}
-        y={platform.y - 4}
-        width={platform.w - 16}
-        height={8}
-        rx={4}
-        fill={BLUE}
-        animate={reduce ? undefined : { opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-      />
-    </svg>
-  );
-}
-
-/** Cloud Enabled Insights: small analytics tiles arranged beneath a soft
- * cloud shape. */
-function CloudAnalyticsVisual({ reduce }: { reduce: boolean | null }) {
-  const tiles = [
-    { x: 40, y: 120, w: 28, h: 30 },
-    { x: 78, y: 105, w: 28, h: 45 },
-    { x: 116, y: 115, w: 28, h: 35 },
-    { x: 154, y: 100, w: 28, h: 50 },
-  ];
-
-  return (
-    <svg viewBox="0 0 200 180" className="h-[200px] w-full max-w-xs" aria-hidden="true">
-      <path
-        d="M 55 70 a 20 20 0 0 1 38 -8 a 16 16 0 0 1 22 15 a 16 16 0 0 1 -4 31 h -58 a 18 18 0 0 1 2 -38 z"
-        fill="rgba(59,130,246,0.1)"
-        stroke={BLUE}
-        strokeWidth="1.5"
-      />
-      {tiles.map((t, i) => (
-        <motion.rect
-          key={i}
-          x={t.x}
-          width={t.w}
-          rx={3}
-          fill="rgba(59,130,246,0.5)"
-          initial={{ height: 0, y: t.y + t.h }}
-          whileInView={{ height: t.h, y: t.y }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: reduce ? 0 : i * 0.12, ease: EASE }}
-        />
-      ))}
-    </svg>
   );
 }

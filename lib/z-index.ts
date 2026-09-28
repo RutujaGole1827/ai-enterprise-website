@@ -10,4 +10,5 @@ export const Z = {
   megaMenu: 45,
   mobileDrawer: 50,
   skipLink: 60,
+  pageLoader: 70,
 } as const;

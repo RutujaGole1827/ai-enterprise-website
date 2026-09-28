@@ -145,7 +145,7 @@ export function EditorialQuoteSplit({
 
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 hidden h-40 w-px -translate-x-1/2 -translate-y-1/2 lg:block"
+          className="pointer-events-none absolute left-1/2 top-1/2 hidden h-40 w-[2px] -translate-x-1/2 -translate-y-1/2 lg:block"
         >
           <div className="h-full w-full bg-gradient-to-b from-transparent via-line-strong to-transparent" />
           <motion.div

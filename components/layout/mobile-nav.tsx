@@ -2,23 +2,26 @@
 
 import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { CaretDown, X } from "@phosphor-icons/react";
+import { ArrowUpRight, CaretDown, X } from "@phosphor-icons/react";
 
 import {
-  CTA_PRIMARY,
+  NAV_CTA,
+  expertiseMenu,
   industries,
-  navLinks,
+  insightsMenu,
+  partnersMenu,
   solutionsMenu,
 } from "@/lib/content";
-import { useContactHref } from "@/components/layout/contact-link";
-import { Button } from "@/components/ui/button";
 import { Wordmark } from "@/components/ui/wordmark";
 import { Z } from "@/lib/z-index";
 import { cn } from "@/lib/utils";
 
 /**
- * Mobile navigation drawer. The mega menu collapses into disclosure groups
- * here; nothing in the desktop menu is dropped, it is re-shaped.
+ * Mobile navigation drawer. Not the desktop mega menus shrunk down — each
+ * of the five (Our Expertise, Solutions, Industries, Partners, Insights)
+ * becomes its own expandable disclosure group, one open at a time, each
+ * animating its own height open/closed. Nothing in the desktop menus is
+ * dropped, only re-shaped for a single column.
  */
 export function MobileNav({
   open,
@@ -27,7 +30,6 @@ export function MobileNav({
   open: boolean;
   onClose: () => void;
 }) {
-  const contactHref = useContactHref();
   const reduce = useReducedMotion();
   const [expanded, setExpanded] = React.useState<string | null>(null);
   const panelRef = React.useRef<HTMLDivElement>(null);
@@ -54,6 +56,11 @@ export function MobileNav({
 
   const groups = [
     {
+      key: "expertise",
+      label: "Our Expertise",
+      items: expertiseMenu.map((i) => ({ label: i.label, href: i.href })),
+    },
+    {
       key: "solutions",
       label: "Solutions",
       items: solutionsMenu.flatMap((c) => c.links),
@@ -61,7 +68,17 @@ export function MobileNav({
     {
       key: "industries",
       label: "Industries",
-      items: industries.map((i) => ({ label: i.name, href: "/#industries" })),
+      items: industries.map((i) => ({ label: i.name, href: i.href })),
+    },
+    {
+      key: "partners",
+      label: "Partners",
+      items: partnersMenu.map((p) => ({ label: p.name, href: p.href })),
+    },
+    {
+      key: "insights",
+      label: "Insights",
+      items: insightsMenu,
     },
   ];
 
@@ -116,49 +133,47 @@ export function MobileNav({
                         )}
                       />
                     </button>
-                    <div
-                      id={`mobile-group-${group.key}`}
-                      hidden={!isOpen}
-                      className="pb-4"
-                    >
-                      <ul className="flex flex-col gap-1">
-                        {group.items.map((item) => (
-                          <li key={item.label}>
-                            <a
-                              href={item.href}
-                              onClick={onClose}
-                              className="block rounded-[var(--radius-control)] px-3 py-2.5 -mx-3 text-[0.9375rem] text-muted transition-colors hover:bg-surface-2 hover:text-ink"
-                            >
-                              {item.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <AnimatePresence initial={false}>
+                      {isOpen ? (
+                        <motion.div
+                          id={`mobile-group-${group.key}`}
+                          initial={reduce ? false : { height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={reduce ? undefined : { height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <ul className="flex flex-col gap-1 pb-4">
+                            {group.items.map((item) => (
+                              <li key={item.label}>
+                                <a
+                                  href={item.href}
+                                  onClick={onClose}
+                                  className="block rounded-[var(--radius-control)] px-3 py-2.5 -mx-3 text-[0.9375rem] text-muted transition-colors hover:bg-surface-2 hover:text-ink"
+                                >
+                                  {item.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      ) : null}
+                    </AnimatePresence>
                   </li>
                 );
               })}
-
-              {navLinks
-                .filter((link) => link.menu === null)
-                .map((link) => (
-                  <li key={link.label} className="border-b border-line">
-                    <a
-                      href={link.href}
-                      onClick={onClose}
-                      className="block py-4 text-lg font-medium text-ink"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
             </ul>
 
-            <Button asChild size="lg" className="mt-8 w-full">
-              <a href={contactHref} onClick={onClose}>
-                {CTA_PRIMARY}
-              </a>
-            </Button>
+            <a
+              href={NAV_CTA.href}
+              target="_blank"
+              rel="noreferrer"
+              onClick={onClose}
+              className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-6 text-[0.9375rem] font-semibold text-accent-contrast dark:text-white transition-colors duration-200 hover:bg-accent-hover"
+            >
+              {NAV_CTA.label}
+              <ArrowUpRight size={16} weight="bold" />
+            </a>
           </nav>
         </motion.div>
       ) : null}

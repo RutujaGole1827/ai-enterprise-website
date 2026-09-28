@@ -102,6 +102,9 @@ export type Offering = {
   /** The summary's own clauses, listed in the detail panel. */
   includes: string[];
   highlight?: { value: string; label: string };
+  /** The offering's own logo lockup, shown in the detail panel. Microsoft's
+   * offerings have no equivalent asset, so this is omitted there. */
+  icon?: string;
 };
 
 export const microsoftOfferings = {

@@ -6,6 +6,9 @@ export const cpgHero = {
   highlightText: "AI",
   description:
     "Empowering consumer packaged goods companies with AI-driven solutions to accelerate growth, improve efficiency, and deliver exceptional customer experiences.",
+  // The live page's own heading, repeated as a subheading beneath this
+  // description there too.
+  subheading: "Exponentia for CPG & Retail Sector",
   buttonText: "Explore how AI Agents can transform your CPG Business",
   // No Contact section on this page: sends to the home page's form, same as
   // every other "contact" link on non-home pages (components/layout/contact-link.tsx).
@@ -143,6 +146,9 @@ export type CpgCaseStudy = {
   client?: string;
   ctaLabel: string;
   ctaHref: string;
+  /** The live page's own image for this card, downloaded from its CDN —
+   * see public/brand/case-studies/. */
+  image: string;
 };
 
 /**
@@ -175,6 +181,7 @@ export const cpgCaseStudies = {
       // has no matching route, so this is inert like the footer's other
       // "#" placeholders for real labels with no page behind them here.
       ctaHref: "#",
+      image: "/brand/case-studies/ports-logistics.jpg",
     },
     {
       id: "data-platform-modernization",
@@ -183,6 +190,7 @@ export const cpgCaseStudies = {
       date: "February 21, 2024",
       ctaLabel: "Read more",
       ctaHref: "#",
+      image: "/brand/case-studies/data-platform-modernization.jpg",
     },
     {
       id: "cloud-insights-insurance",
@@ -193,6 +201,7 @@ export const cpgCaseStudies = {
       client: "Leading Indian Insurance Giant",
       ctaLabel: "Read more",
       ctaHref: "#",
+      image: "/brand/case-studies/cloud-insights-insurance.jpg",
     },
   ] satisfies CpgCaseStudy[],
 };

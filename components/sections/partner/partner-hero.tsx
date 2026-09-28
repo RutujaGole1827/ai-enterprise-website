@@ -37,6 +37,10 @@ export function PartnerHero({
   secondaryCta,
   platforms,
   emphasis = [],
+  partnerName = "Microsoft",
+  partnerLogo = "/brand/partners/microsoft.svg",
+  background,
+  fullHeight = false,
 }: {
   title: string;
   body: readonly string[];
@@ -45,6 +49,17 @@ export function PartnerHero({
   platforms: readonly string[];
   /** Phrases of the lead paragraph set in bold, as on the live page. */
   emphasis?: readonly string[];
+  /** The partner named in the lockup and hub card. */
+  partnerName?: string;
+  partnerLogo?: string;
+  /** Extra decorative layer rendered behind the content, over `.brand-ground`
+   * — lets a partner page carry its own accent without losing the shared
+   * radial wash every partner hero starts from. */
+  background?: React.ReactNode;
+  /** Fills the viewport below the sticky header (100dvh minus its real
+   * rendered height, same figure the CPG hero uses) instead of the
+   * default content-height section, and centres the content within it. */
+  fullHeight?: boolean;
 }) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const hubRef = React.useRef<HTMLDivElement>(null);
@@ -71,11 +86,23 @@ export function PartnerHero({
   return (
     <section
       id="top"
-      className="brand-ground relative overflow-hidden border-b border-line"
+      className={cn(
+        "brand-ground relative overflow-hidden border-b border-line",
+        fullHeight &&
+          "flex min-h-[calc(100dvh-61px)] flex-col justify-center lg:min-h-[calc(100dvh-69px)]",
+      )}
       aria-labelledby="partner-hero-heading"
     >
-      <div className="shell">
-        <div className="grid grid-cols-1 items-center gap-12 pb-14 pt-10 md:pb-20 md:pt-16 lg:grid-cols-12 lg:gap-14 lg:pb-24 lg:pt-20">
+      {background}
+      <div className="shell w-full">
+        <div
+          className={cn(
+            "grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-14",
+            fullHeight
+              ? "py-10 md:py-14 lg:py-16"
+              : "pb-14 pt-10 md:pb-20 md:pt-16 lg:pb-24 lg:pt-20",
+          )}
+        >
           <motion.div
             {...enter(0)}
             className="md:max-w-[40rem] lg:col-span-7 lg:max-w-none"
@@ -87,14 +114,14 @@ export function PartnerHero({
               <span className="inline-flex items-center gap-2 text-[0.9375rem] font-medium text-ink">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/brand/partners/microsoft.svg"
+                  src={partnerLogo}
                   alt=""
                   aria-hidden="true"
                   width={24}
                   height={24}
                   className="size-6"
                 />
-                Microsoft
+                {partnerName}
               </span>
             </div>
             <h1
@@ -136,8 +163,8 @@ export function PartnerHero({
               className="relative mx-auto grid w-full max-w-[30rem] grid-cols-[minmax(0,1fr)_auto] items-center gap-x-6 rounded-[var(--radius-surface)] border border-line bg-surface/80 p-4 shadow-[var(--shadow-lift)] backdrop-blur-sm sm:gap-x-16 sm:p-8"
             >
               <p className="sr-only">
-                Exponentia.ai works across {platforms.join(", ")} as a Microsoft
-                partner.
+                Exponentia.ai works across {platforms.join(", ")} as a{" "}
+                {partnerName} partner.
               </p>
 
               <ul aria-hidden="true" className="flex flex-col gap-2.5 sm:gap-3">
@@ -169,14 +196,14 @@ export function PartnerHero({
                 <span className="text-xs text-muted">with</span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/brand/partners/microsoft.svg"
+                  src={partnerLogo}
                   alt=""
                   width={48}
                   height={48}
                   className="size-10 sm:size-12"
                 />
                 <span className="text-xs font-medium text-ink">
-                  Microsoft Partner
+                  {partnerName} Partner
                 </span>
               </div>
 

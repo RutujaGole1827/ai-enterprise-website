@@ -146,36 +146,43 @@ export const industries = [
     name: "Banking",
     body: "Risk, fraud and regulatory reporting built on lineage that survives an examination.",
     icon: "/brand/industries/banking.svg",
+    href: "/#industries",
   },
   {
     id: "insurance",
     name: "Insurance",
     body: "Underwriting and claims decisions supported by data the actuarial team will stand behind.",
     icon: "/brand/industries/insurance.svg",
+    href: "/#industries",
   },
   {
     id: "financial-services",
     name: "Financial services",
     body: "Portfolio, treasury and compliance reporting on one governed platform instead of nine.",
     icon: "/brand/industries/financial-services.svg",
+    href: "/#industries",
   },
   {
     id: "cpg-retail",
     name: "CPG and retail",
     body: "Demand forecasting and assortment calls that reach store managers, not just dashboards.",
     icon: "/brand/industries/cpg-retail.svg",
+    // The one industry with a real dedicated page in this project.
+    href: "/industries/exponentia-for-cpg-sector",
   },
   {
     id: "manufacturing",
     name: "Manufacturing",
     body: "Predictive maintenance and yield analytics across plants that were never instrumented for it.",
     icon: "/brand/industries/manufacturing.svg",
+    href: "/#industries",
   },
   {
     id: "healthcare",
     name: "Healthcare",
     body: "Clinical and operational data unified under controls your compliance team will sign off on.",
     icon: "/brand/industries/healthcare.svg",
+    href: "/#industries",
   },
 ] as const;
 
@@ -365,86 +372,131 @@ export const insights = [
 ] as const;
 
 /* ---------------------------------- NAV ---------------------------------- */
+/**
+ * The global nav's own content — matched to the live exponentia.ai site's
+ * actual header structure (five mega-menus: Our Expertise, Solutions,
+ * Industries, Partners, Insights) rather than this project's earlier,
+ * illustrative "Solutions" grouping used only here. Every label below is
+ * the live site's own; a link points into this project only where that
+ * page genuinely exists (Partners → Microsoft, the one partner page this
+ * project has; Solutions by Industry → the one industry page this project
+ * has; Insights → the home page's own case-studies/insights sections);
+ * everything else is a "#" placeholder, same convention as the footer.
+ */
 
 export type MegaColumn = {
   heading: string;
-  links: { label: string; href: string; description: string }[];
+  links: { label: string; href: string; description?: string }[];
 };
+
+export type ExpertiseItem = { label: string; description: string; href: string };
+
+export const expertiseMenu: ExpertiseItem[] = [
+  { label: "AI Consulting", description: "Advisory-led AI strategy", href: "#" },
+  {
+    label: "AI Product Engineering",
+    description: "Scalable AI solution design",
+    href: "#",
+  },
+  {
+    label: "Modernize AI + Data Platform",
+    description: "Legacy-to-modern transformation",
+    href: "#",
+  },
+  {
+    label: "AI & Analytics Solutions",
+    description: "Advanced analytics enablement",
+    href: "#",
+  },
+  {
+    label: "Managed Services",
+    description: "AI platform operations & support",
+    href: "#",
+  },
+];
 
 export const solutionsMenu: MegaColumn[] = [
   {
-    heading: "Data foundation",
+    heading: "Agentic AI & Data Platform Solutions",
     links: [
-      {
-        label: "Data platform modernization",
-        href: "/#solutions",
-        description: "Warehouse, lakehouse and streaming, consolidated",
-      },
-      {
-        label: "Real-time pipelines",
-        href: "/#solutions",
-        description: "Event ingestion your operations can depend on",
-      },
-      {
-        label: "Data governance and trust",
-        href: "/#solutions",
-        description: "Lineage, contracts and access control",
-      },
+      { label: "LakeHouseXponent", href: "#" },
+      { label: "MigrationXponent", href: "#" },
+      { label: "AIXponent", href: "#" },
     ],
   },
   {
-    heading: "Applied AI",
+    heading: "AI Solutions",
     links: [
-      {
-        label: "Machine learning engineering",
-        href: "/#solutions",
-        description: "Models that survive contact with production",
-      },
-      {
-        label: "Generative AI systems",
-        href: "/#solutions",
-        description: "Retrieval, evaluation and guardrails",
-      },
-      {
-        label: "Forecasting and optimization",
-        href: "/#solutions",
-        description: "Demand, load, capacity and pricing",
-      },
+      { label: "LogisticsXponent", href: "#" },
+      { label: "Asset ManagementXponent", href: "#" },
+      { label: "WealthXponent", href: "#" },
+      { label: "OneTap", href: "#" },
+      { label: "Smart ManufacturingXponent", href: "#" },
+      { label: "PSI", href: "#" },
+      { label: "GenTrust", href: "#" },
+      { label: "PMOXponent", href: "#" },
     ],
   },
   {
-    heading: "Run and scale",
+    heading: "Solutions by Industry",
     links: [
       {
-        label: "MLOps and reliability",
-        href: "/#solutions",
-        description: "Monitoring, retraining and incident response",
+        label: "Agentic AI for CPG",
+        href: "/industries/exponentia-for-cpg-sector",
       },
-      {
-        label: "Analytics enablement",
-        href: "/#solutions",
-        description: "Semantic layers and self-serve reporting",
-      },
-      {
-        label: "Team enablement",
-        href: "/#journey",
-        description: "Your engineers own it after we leave",
-      },
+      { label: "Agentic AI for Manufacturing", href: "#" },
+      { label: "Agentic AI for BFSI", href: "#" },
     ],
   },
 ];
 
+export type PartnerLink = { name: string; href: string };
+
+export const partnersMenu: PartnerLink[] = [
+  { name: "Databricks", href: "/partners-databricks" },
+  { name: "Microsoft", href: "/partners-microsoft" },
+  { name: "Amazon Web Services", href: "#" },
+  { name: "Qlik", href: "#" },
+];
+
+export type InsightLink = { label: string; href: string };
+
+export const insightsMenu: InsightLink[] = [
+  { label: "Client Success Stories", href: "/#case-studies" },
+  { label: "Blogs", href: "/#insights" },
+  { label: "Webinars", href: "#" },
+  { label: "Downloads", href: "#" },
+  { label: "News & PR", href: "#" },
+];
+
+/** The navbar's own CTA — a different destination and label from
+ * `CTA_PRIMARY` (used in the hero/journey sections, untouched here): the
+ * live site's own external Agentic AI product, not this project's contact
+ * form. */
+export const NAV_CTA = {
+  label: "Explore Agentic AI Solutions",
+  href: "https://aixponent.exponentia.ai/a",
+};
+
+export type NavMenuKey =
+  | "expertise"
+  | "solutions"
+  | "industries"
+  | "partners"
+  | "insights";
+
 export type NavLink = {
   label: string;
   href: string;
-  menu: "solutions" | "industries" | null;
+  menu: NavMenuKey;
 };
 
 export const navLinks: NavLink[] = [
+  { label: "Our Expertise", href: "#", menu: "expertise" },
   { label: "Solutions", href: "/#solutions", menu: "solutions" },
   { label: "Industries", href: "/#industries", menu: "industries" },
-  { label: "Case studies", href: "/#case-studies", menu: null },
-  { label: "Insights", href: "/#insights", menu: null },
+  { label: "Partners", href: "/partners-microsoft", menu: "partners" },
+  { label: "Insights", href: "/#insights", menu: "insights" },
 ];
 
 /** The live exponentia.ai footer's own "Your AI Acceleration Partner" block. */

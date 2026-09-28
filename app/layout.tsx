@@ -7,6 +7,7 @@ import { Z } from "@/lib/z-index";
 import { themeInitScript } from "@/components/layout/theme-toggle";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { ExponentiaLoader } from "@/components/ui/exponentia-loader";
 
 import "./globals.css";
 
@@ -58,6 +59,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
+        <ExponentiaLoader />
         <a
           href="#main"
           style={{ zIndex: Z.skipLink }}

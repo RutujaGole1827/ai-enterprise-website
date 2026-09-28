@@ -25,11 +25,23 @@ export function FinalCta({
   titleHighlight,
   body,
   ctaLabel,
+  beamColorFrom = "#22d3ee",
+  beamColorTo = "#3b82f6",
+  highlightTo = "#67e8f9",
+  glowColor = "59,130,246",
 }: {
   title: string;
   titleHighlight: string;
   body: string;
   ctaLabel: string;
+  /** The travelling border beam's gradient. Defaults to the Microsoft
+   * page's cyan → blue. */
+  beamColorFrom?: string;
+  beamColorTo?: string;
+  /** Hex/rgb color the title highlight fades into, from white. */
+  highlightTo?: string;
+  /** `r,g,b` used for the two ambient corner glows and the cursor glow. */
+  glowColor?: string;
 }) {
   const reduce = useReducedMotion();
   const contactHref = useContactHref();
@@ -37,14 +49,14 @@ export function FinalCta({
   return (
     <section className="border-b border-line bg-canvas">
       <div className="shell py-6 md:py-10">
-        <PointerGlowPanel>
+        <PointerGlowPanel glowColor={glowColor}>
           <BorderBeam
             borderRadius={28}
             size={90}
             duration={6}
             borderWidth={2}
-            colorFrom="#22d3ee"
-            colorTo="#3b82f6"
+            colorFrom={beamColorFrom}
+            colorTo={beamColorTo}
           />
 
           <motion.div
@@ -55,7 +67,7 @@ export function FinalCta({
             className="relative mx-auto max-w-[68ch] text-center"
           >
             <h2 className="font-semibold tracking-[-0.03em] text-white [font-size:clamp(1.75rem,3vw,2.25rem)] [line-height:1.2]">
-              {renderTitle(title, titleHighlight)}
+              {renderTitle(title, titleHighlight, highlightTo)}
             </h2>
             <p className="mx-auto mt-6 max-w-[68ch] text-lg leading-relaxed text-white/70 sm:text-xl">
               {body}
@@ -83,7 +95,7 @@ export function FinalCta({
  * since the latter would drift with viewport width and font-size changes.
  * Below `lg`, the line wraps naturally, same as before.
  */
-function renderTitle(title: string, phrase: string) {
+function renderTitle(title: string, phrase: string, highlightTo: string) {
   const at = title.indexOf(phrase);
   if (at === -1) return title;
   const before = title.slice(0, at).trimEnd();
@@ -93,7 +105,12 @@ function renderTitle(title: string, phrase: string) {
       <span className="lg:whitespace-nowrap">{before}</span>{" "}
       <br className="hidden lg:block" />
       <span className="lg:whitespace-nowrap">
-        <span className="bg-gradient-to-r from-white to-cyan-300 bg-clip-text text-transparent">
+        <span
+          className="bg-clip-text text-transparent"
+          style={{
+            backgroundImage: `linear-gradient(to right, #ffffff, ${highlightTo})`,
+          }}
+        >
           {phrase}
         </span>
         {after}
@@ -116,7 +133,13 @@ function renderTitle(title: string, phrase: string) {
  * #060c19) — without a real hue shift, a near-black panel on a near-black
  * page reads as the same surface, not a distinct block.
  */
-function PointerGlowPanel({ children }: { children: React.ReactNode }) {
+function PointerGlowPanel({
+  children,
+  glowColor,
+}: {
+  children: React.ReactNode;
+  glowColor: string;
+}) {
   const reduce = useReducedMotion();
 
   return (
@@ -147,11 +170,17 @@ function PointerGlowPanel({ children }: { children: React.ReactNode }) {
       {/* Two soft ambient glows, opposite corners. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-1/4 -top-1/4 size-96 rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.14)_0%,transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -left-1/4 -top-1/4 size-96 rounded-full blur-3xl"
+        style={{
+          background: `radial-gradient(circle, rgba(${glowColor},0.14) 0%, transparent 70%)`,
+        }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-1/4 -right-1/4 size-96 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.14)_0%,transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -bottom-1/4 -right-1/4 size-96 rounded-full blur-3xl"
+        style={{
+          background: `radial-gradient(circle, rgba(${glowColor},0.14) 0%, transparent 70%)`,
+        }}
       />
       {/* Cursor-following glow; centred and static under reduced motion,
           and a touch brighter on hover via group-hover/panel. */}
@@ -160,8 +189,8 @@ function PointerGlowPanel({ children }: { children: React.ReactNode }) {
         className="pointer-events-none absolute inset-0 opacity-40 transition-opacity duration-500 group-hover/panel:opacity-60"
         style={{
           background: reduce
-            ? "radial-gradient(28rem circle at 50% 30%, rgba(59,130,246,0.18), transparent 70%)"
-            : "radial-gradient(28rem circle at var(--glow-x, 50%) var(--glow-y, 30%), rgba(59,130,246,0.18), transparent 70%)",
+            ? `radial-gradient(28rem circle at 50% 30%, rgba(${glowColor},0.18), transparent 70%)`
+            : `radial-gradient(28rem circle at var(--glow-x, 50%) var(--glow-y, 30%), rgba(${glowColor},0.18), transparent 70%)`,
         }}
       />
       {children}

@@ -121,9 +121,27 @@ export function OfferingExplorer({
                   transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                   className="flex h-full flex-col gap-8"
                 >
+                  {active.icon ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={active.icon}
+                      alt={`${active.name} logo`}
+                      width={197}
+                      height={95}
+                      className="h-12 w-auto"
+                    />
+                  ) : null}
+
                   {/* Below lg the panel sits right under its own button, so
-                      repeating the name there would only echo it. */}
-                  <h3 className="hidden text-4xl font-semibold tracking-[-0.03em] text-ink lg:block">
+                      repeating the name there would only echo it. Also
+                      skipped when the icon above already carries the name
+                      as part of its own lockup. */}
+                  <h3
+                    className={cn(
+                      "text-4xl font-semibold tracking-[-0.03em] text-ink",
+                      active.icon ? "hidden" : "hidden lg:block",
+                    )}
+                  >
                     {active.name}
                   </h3>
 

@@ -143,6 +143,9 @@
     font-feature-settings: "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
   }
 
   :focus-visible {

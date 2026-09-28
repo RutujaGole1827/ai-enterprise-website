@@ -17,17 +17,27 @@ import { NumberTicker } from "@/components/ui/number-ticker";
  *   mobile  2 cols, last cell spans both
  *   sm      6-col track: three cells of 2, then two cells of 3
  *   lg      5 across
+ *
+ * A page with 3 or fewer metrics (no partner has a "badge" status entry to
+ * fill a wider track) instead gets a plain, even N-up grid at every
+ * breakpoint from `sm` — the 5-metric ratios above would leave 3 items
+ * short of a full row and read as an unfinished layout, not an intentional
+ * three-up one.
  */
 export function StatStrip({
   items,
   certifications,
+  label = "Our Microsoft practice in numbers",
 }: {
   items: Metric[];
   certifications?: { src: string; width: number; height: number; alt: string };
+  label?: string;
 }) {
+  const compact = items.length <= 3;
+
   return (
     <section
-      aria-label="Our Microsoft practice in numbers"
+      aria-label={label}
       className="border-b border-line bg-canvas py-14 md:py-20"
     >
       <div className="shell">
@@ -44,7 +54,10 @@ export function StatStrip({
 
         <ul
           className={cn(
-            "grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-surface)] border border-line bg-line sm:grid-cols-6 lg:grid-cols-5",
+            "grid gap-px overflow-hidden rounded-[var(--radius-surface)] border border-line bg-line",
+            compact
+              ? "grid-cols-1 sm:grid-cols-3"
+              : "grid-cols-2 sm:grid-cols-6 lg:grid-cols-5",
             certifications && "mt-12 md:mt-16",
           )}
         >
@@ -52,9 +65,14 @@ export function StatStrip({
             <li
               key={item.label}
               className={cn(
-                "flex flex-col justify-between gap-6 bg-surface p-6 lg:col-span-1 lg:p-7",
-                index < 3 ? "sm:col-span-2" : "sm:col-span-3",
-                index === items.length - 1 && "col-span-2",
+                "flex flex-col justify-between gap-6 bg-surface p-6 lg:p-7",
+                compact
+                  ? "lg:col-span-1"
+                  : cn(
+                      "lg:col-span-1",
+                      index < 3 ? "sm:col-span-2" : "sm:col-span-3",
+                      index === items.length - 1 && "col-span-2",
+                    ),
               )}
             >
               {item.kind === "count" ? (
