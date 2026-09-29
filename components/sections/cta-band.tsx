@@ -26,7 +26,7 @@ export function CtaBand({
   cta?: { label: string; href: string };
 }) {
   return (
-    <section className="border-b border-line bg-canvas">
+    <section className="min-h-section border-b border-line bg-canvas">
       <div className="shell py-6 md:py-10">
         <div className="overflow-hidden rounded-[var(--radius-surface)] bg-brand-navy bg-[radial-gradient(110%_120%_at_85%_0%,var(--brand-navy)_0%,var(--brand-navy-deep)_70%)]">
           <div className="mx-auto flex max-w-[46rem] flex-col items-center gap-6 px-6 py-20 text-center md:py-28">

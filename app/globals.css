@@ -208,6 +208,24 @@
     }
   }
 
+  /* Every top-level page section gets at least the height of the viewport
+     below the sticky header (61px below `lg`, 69px from `lg`, matching the
+     header's own real rendered height in site-header.tsx), so no section
+     reads as a sliver while scrolling. A section with more content than
+     that simply grows past it — this is a floor, not a fixed height. */
+  .min-h-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100dvh - 61px);
+  }
+
+  @media (min-width: 1024px) {
+    .min-h-section {
+      min-height: calc(100dvh - 69px);
+    }
+  }
+
   /* Expanding industry panels (components/sections/partner/industry-panels).
      From xl the row is a flex strip. Each panel carries `--open` (0 or 1),
      which drives both its share of the row and its detail's opacity, so there

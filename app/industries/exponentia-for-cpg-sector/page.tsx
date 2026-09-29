@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { cpgCaseStudies, cpgGrowth, cpgHero, cpgStory } from "@/lib/industries/cpg";
+import { cpgCaseStudies, cpgHero, cpgStory } from "@/lib/industries/cpg";
 import { HeroSection } from "@/components/ui/hero-section-with-smooth-bg-shader";
 import { EditorialQuoteSplit } from "@/components/ui/editorial-quote-split";
-import { GrowthBentoGrid } from "@/components/ui/growth-bento-grid";
+import { CPGSolutionsScrolling } from "@/components/ui/cpg-solutions-scrolling";
 import { CaseStudiesShowcase } from "@/components/ui/case-studies-showcase";
 
 export const metadata: Metadata = {
@@ -19,17 +19,19 @@ export const metadata: Metadata = {
 
 /**
  * CPG industry page. Built one section at a time:
- *   1. HeroSection         MeshGradient shader hero
- *   2. EditorialQuoteSplit the Steve Jobs quote + CPG data story
- *   3. GrowthBentoGrid     the eight CPG solution use-case cards
- *   4. CaseStudiesShowcase the "Client success stories" featured showcase
+ *   1. HeroSection          MeshGradient shader hero
+ *   2. EditorialQuoteSplit  the Steve Jobs quote + CPG data story
+ *   3. CPGSolutionsScrolling the eight CPG solutions as a sticky card
+ *      stack (its own defaults draw from lib/industries/cpg's cpgGrowth,
+ *      the live page's own eight use-case cards)
+ *   4. CaseStudiesShowcase  the "Client success stories" featured showcase
  */
 export default function CpgIndustryPage() {
   return (
     <>
       <HeroSection {...cpgHero} />
       <EditorialQuoteSplit {...cpgStory} />
-      <GrowthBentoGrid {...cpgGrowth} />
+      <CPGSolutionsScrolling />
       <CaseStudiesShowcase {...cpgCaseStudies} />
     </>
   );

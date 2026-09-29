@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
-    <section className="section-y">
-      <div className="shell flex min-h-[50vh] flex-col items-start justify-center gap-5">
+    <section className="section-y min-h-section">
+      <div className="shell flex flex-col items-start gap-5">
         <h1 className="text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">
           That page is not here
         </h1>

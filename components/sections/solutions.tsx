@@ -29,7 +29,10 @@ const spans: Record<string, string> = {
 
 export function Solutions() {
   return (
-    <section id="solutions" className="section-y border-b border-line">
+    <section
+      id="solutions"
+      className="section-y min-h-section border-b border-line"
+    >
       <div className="shell">
         <SectionHeading
           title="What we build"

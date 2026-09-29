@@ -37,7 +37,7 @@ export function TrustBar() {
   return (
     <section
       aria-label="Organisations we work with"
-      className="border-b border-line bg-canvas py-12 md:py-14"
+      className="min-h-section border-b border-line bg-canvas py-12 md:py-14"
     >
       <div className="shell">
         <div className="flex flex-col items-center gap-2 text-center">

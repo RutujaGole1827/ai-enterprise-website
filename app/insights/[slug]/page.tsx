@@ -107,7 +107,10 @@ export default async function InsightPage({
         </div>
       </article>
 
-      <section className="section-y" aria-labelledby="related-heading">
+      <section
+        className="section-y min-h-section"
+        aria-labelledby="related-heading"
+      >
         <div className="shell">
           <h2
             id="related-heading"

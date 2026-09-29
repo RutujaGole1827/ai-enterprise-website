@@ -72,7 +72,7 @@ export function CircularTestimonials({
   return (
     <section
       aria-labelledby="testimonials-heading"
-      className="section-y border-b border-line"
+      className="section-y min-h-section border-b border-line"
     >
       <div className="shell">
         <SectionHeading id="testimonials-heading" title={title} />

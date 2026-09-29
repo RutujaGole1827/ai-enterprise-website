@@ -44,7 +44,7 @@ export function ValueBento({
   return (
     <section
       aria-labelledby="value-heading"
-      className="section-y border-b border-line"
+      className="section-y min-h-section border-b border-line"
     >
       <div className="shell">
         <SectionHeading id="value-heading" title={title} body={body} />

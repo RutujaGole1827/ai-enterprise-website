@@ -55,6 +55,12 @@ export type GrowthCard = {
    * compact. Sizes match the live page's own emphasis, not a layout
    * decided independently of the content. */
   size: "lg" | "sm";
+  /** The live page's own image for this solution, downloaded from its CDN
+   * (Webflow CMS collection, "cpg-section-image-N") — see
+   * public/brand/cpg-solutions/. Used by CPGSolutionsScrolling; the
+   * bento-grid rendering (GrowthBentoGrid) draws its own visuals instead
+   * and ignores this field. */
+  image: string;
 };
 
 /**
@@ -73,6 +79,7 @@ export const cpgGrowth = {
       description:
         "Drive higher sales with our intelligent sales analytics solution that provides insights to help you understand your top customers, top products, product sales trends, product contribution in overall revenue, most profitable products and so on. Use these insights to build a powerful sales strategy focusing more on the sensitive business touchpoints and grow your revenue.",
       size: "lg",
+      image: "/brand/cpg-solutions/solution-1.png",
     },
     {
       id: "decision-making",
@@ -81,6 +88,7 @@ export const cpgGrowth = {
       description:
         "Address any critical issue or key opportunity immediately with our proprietary ML-based anomaly detection algorithm- that rightly identifies any unexpected pattern in sales trends, or other business KPIs. These alerts are trained with historical data, reference data changes and other inputs as specified to flag the alerts at the right moment to users for immediate action.",
       size: "sm",
+      image: "/brand/cpg-solutions/solution-2.png",
     },
     {
       id: "sales-forecasting",
@@ -89,6 +97,7 @@ export const cpgGrowth = {
       description:
         "Accurately predict future sales volumes at SKU level. Our solutions help CPG players develop a robust sales forecasting model, improve target setting by identifying current market conditions and improve customer sales. The structured scenario analysis also improves decision making.",
       size: "sm",
+      image: "/brand/cpg-solutions/solution-3.png",
     },
     {
       id: "business-analyst",
@@ -97,6 +106,7 @@ export const cpgGrowth = {
       description:
         "Now integrate product data, specifications, research reports and all information to quickly collate and summarize your data into actionable insights using our latest GenAI based solution.",
       size: "lg",
+      image: "/brand/cpg-solutions/solution-4.png",
     },
     {
       id: "performance-management",
@@ -105,6 +115,7 @@ export const cpgGrowth = {
       description:
         "Track and manage performance of the sales team with performance scorecards. The performance of the team is measured based on effort, effectiveness, regularity and consistency. The regular performance scorecards help CPG companies identify areas that can be improved or incentivised as per the sales representatives.",
       size: "sm",
+      image: "/brand/cpg-solutions/solution-5.png",
     },
     {
       id: "inventory-optimization",
@@ -113,6 +124,7 @@ export const cpgGrowth = {
       description:
         "Improve inventory forecasting by obtaining insights from vast volumes of data at the SKU level on a weekly/daily basis. Develop robust demand forecasts to perform inventory stock level vs lost sales scenario analysis, suggest order quantity recommendations to reduce out-of-stock frequency, optimize inventory and align inventory planning, forecasting and execution capabilities across the organization.",
       size: "lg",
+      image: "/brand/cpg-solutions/solution-6.png",
     },
     {
       id: "product-launch",
@@ -121,6 +133,7 @@ export const cpgGrowth = {
       description:
         "Leverage analytics to plan a successful product launch and avoid cannibalization. Our solutions let you identify factors critical to new product success. Understand how sales and contribution margin of a new product should be benchmarked to assess performance, measure a product launch, estimate impact of the product launch on overall market share and analyse the level of cannibalisation from newly launched products- thus enabling organizations to plan effectively for the future.",
       size: "lg",
+      image: "/brand/cpg-solutions/solution-7.png",
     },
     {
       id: "trade-promotion",
@@ -129,6 +142,7 @@ export const cpgGrowth = {
       description:
         "Improve decision making with Analytics to identify and optimize promotional offers that maximizes sales lift, ROI and improves performance of newly launched products. Drive better decisions by understanding the critical factors responsible for successful promotions, identifying target audience, customising promotional activity plans and calculating ROI.",
       size: "sm",
+      image: "/brand/cpg-solutions/solution-8.png",
     },
   ] satisfies GrowthCard[],
 };

@@ -19,7 +19,10 @@ export function CaseStudies() {
   const rest = caseStudies.filter((entry) => entry.id !== featured.id);
 
   return (
-    <section id="case-studies" className="section-y border-b border-line">
+    <section
+      id="case-studies"
+      className="section-y min-h-section border-b border-line"
+    >
       <div className="shell">
         <SectionHeading
           title="Work that reached production"

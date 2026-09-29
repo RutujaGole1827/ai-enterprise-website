@@ -76,7 +76,7 @@ export function CaseStudiesShowcase({
   }, [reduce, paused, items.length]);
 
   return (
-    <section className="border-b border-line bg-canvas py-14 md:py-20">
+    <section className="min-h-section border-b border-line bg-canvas py-14 md:py-20">
       <div className="shell max-w-[1280px]">
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 20 }}

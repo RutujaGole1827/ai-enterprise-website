@@ -26,7 +26,7 @@ export function IndustryPanels({
     <section
       id="industries"
       aria-labelledby="industries-heading"
-      className="section-y border-b border-line"
+      className="section-y min-h-section border-b border-line"
     >
       <div className="shell">
         <SectionHeading id="industries-heading" title={title} />

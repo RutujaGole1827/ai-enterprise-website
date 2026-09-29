@@ -46,7 +46,7 @@ export function OfferingExplorer({
     <section
       id="offerings"
       aria-labelledby="offerings-heading"
-      className="section-y scroll-mt-20 border-b border-line bg-surface"
+      className="section-y min-h-section scroll-mt-20 border-b border-line bg-surface"
     >
       <div className="shell">
         <SectionHeading id="offerings-heading" title={title} body={body} />

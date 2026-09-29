@@ -14,7 +14,10 @@ import { SectionHeading } from "@/components/ui/section-heading";
  */
 export function Insights() {
   return (
-    <section id="insights" className="section-y border-b border-line">
+    <section
+      id="insights"
+      className="section-y min-h-section border-b border-line"
+    >
       <div className="shell">
         <SectionHeading
           title="What we are writing about"

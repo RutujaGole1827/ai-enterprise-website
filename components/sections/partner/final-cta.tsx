@@ -47,7 +47,7 @@ export function FinalCta({
   const contactHref = useContactHref();
 
   return (
-    <section className="border-b border-line bg-canvas">
+    <section className="min-h-section border-b border-line bg-canvas">
       <div className="shell py-6 md:py-10">
         <PointerGlowPanel glowColor={glowColor}>
           <BorderBeam

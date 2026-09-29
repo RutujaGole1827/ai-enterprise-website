@@ -56,7 +56,10 @@ export function Industries() {
   };
 
   return (
-    <section id="industries" className="section-y border-b border-line">
+    <section
+      id="industries"
+      className="section-y min-h-section border-b border-line"
+    >
       <div className="shell">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading

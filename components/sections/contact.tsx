@@ -109,7 +109,10 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="section-y border-b border-line">
+    <section
+      id="contact"
+      className="section-y min-h-section border-b border-line"
+    >
       <div className="shell grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
           <h2 className="max-w-[16ch] text-3xl font-semibold tracking-[-0.03em] text-ink text-balance sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">

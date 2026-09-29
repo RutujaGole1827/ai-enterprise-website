@@ -26,7 +26,7 @@ export function Testimonials({
 
   return (
     <section
-      className="section-y border-b border-line"
+      className="section-y min-h-section border-b border-line"
       aria-label={title ? undefined : "Client testimonials"}
       aria-labelledby={title ? "testimonials-heading" : undefined}
     >

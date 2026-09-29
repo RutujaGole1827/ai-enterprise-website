@@ -18,7 +18,7 @@ export function Ecosystem() {
   return (
     <section
       id="ecosystem"
-      className="section-y border-b border-line bg-surface"
+      className="section-y min-h-section border-b border-line bg-surface"
     >
       <div className="shell">
         <SectionHeading

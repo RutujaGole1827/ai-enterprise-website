@@ -66,7 +66,6 @@ export default function DatabricksPartnerPage() {
         partnerName="Databricks"
         partnerLogo="/brand/partners/databricks.svg"
         background={<DatabricksHeroBackground />}
-        fullHeight
       />
       <StatStrip
         items={databricksMetrics}

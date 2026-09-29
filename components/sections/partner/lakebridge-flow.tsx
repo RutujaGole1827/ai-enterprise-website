@@ -32,7 +32,7 @@ export function LakebridgeFlow({
   return (
     <section
       aria-labelledby="lakebridge-heading"
-      className="section-y border-b border-line"
+      className="section-y min-h-section border-b border-line"
     >
       <div className="shell">
         <SectionHeading id="lakebridge-heading" title={title} />

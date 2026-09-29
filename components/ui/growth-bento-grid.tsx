@@ -35,7 +35,7 @@ export function GrowthBentoGrid({
   cards: GrowthCard[];
 }) {
   return (
-    <section className="border-b border-line bg-canvas py-20 md:py-28">
+    <section className="min-h-section border-b border-line bg-canvas py-20 md:py-28">
       <div className="shell max-w-[1280px]">
         <h2 className="max-w-2xl text-balance font-semibold tracking-[-0.03em] text-ink [font-size:clamp(2rem,3.6vw,3rem)] leading-[1.1]">
           {heading}

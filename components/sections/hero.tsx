@@ -36,11 +36,11 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="brand-ground relative overflow-hidden border-b border-line"
+      className="brand-ground min-h-section relative overflow-hidden border-b border-line"
       aria-labelledby="hero-heading"
     >
-      <div className="shell">
-        <div className="grid grid-cols-1 items-center gap-10 pb-16 pt-12 md:pb-24 md:pt-16 lg:min-h-[calc(100dvh-68px)] lg:grid-cols-12 lg:gap-14 lg:pb-20 lg:pt-20">
+      <div className="shell w-full">
+        <div className="grid grid-cols-1 items-center gap-10 py-12 md:py-16 lg:grid-cols-12 lg:gap-14 lg:py-16">
           <div className="lg:col-span-7">
             <motion.h1
               id="hero-heading"

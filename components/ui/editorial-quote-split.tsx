@@ -64,7 +64,7 @@ export function EditorialQuoteSplit({
     <section
       ref={sectionRef}
       className={cn(
-        "relative overflow-hidden border-b border-line bg-canvas py-20 md:py-28",
+        "min-h-section relative overflow-hidden border-b border-line bg-canvas py-20 md:py-28",
         className,
       )}
     >

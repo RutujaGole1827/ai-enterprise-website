@@ -38,7 +38,7 @@ export function StatStrip({
   return (
     <section
       aria-label={label}
-      className="border-b border-line bg-canvas py-14 md:py-20"
+      className="min-h-section border-b border-line bg-canvas py-14 md:py-20"
     >
       <div className="shell">
         {certifications ? (

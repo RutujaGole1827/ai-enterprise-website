@@ -33,7 +33,7 @@ export function Journey() {
   return (
     <section
       id="journey"
-      className="section-y border-b border-line bg-surface"
+      className="section-y min-h-section border-b border-line bg-surface"
       aria-labelledby="journey-heading"
     >
       <div className="shell grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
