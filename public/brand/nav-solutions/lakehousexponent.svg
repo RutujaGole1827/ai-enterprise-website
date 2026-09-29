@@ -1,0 +1,15 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-4" y="-4" width="68" height="68"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(2px);clip-path:url(#bgblur_0_4056_1778_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="4">
+<rect width="60" height="60" rx="8" fill="#002060"/>
+<path d="M38.6667 18H21.3333C20.7138 18 20.404 18 20.1464 18.0512C19.0886 18.2617 18.2617 19.0886 18.0512 20.1464C18 20.404 18 20.7138 18 21.3333C18 21.9529 18 22.2626 18.0512 22.5202C18.2617 23.5781 19.0886 24.405 20.1464 24.6154C20.404 24.6667 20.7138 24.6667 21.3333 24.6667H38.6667C39.2863 24.6667 39.596 24.6667 39.8536 24.6154C40.9115 24.405 41.7384 23.5781 41.9488 22.5202C42 22.2626 42 21.9529 42 21.3333C42 20.7138 42 20.404 41.9488 20.1464C41.7384 19.0886 40.9115 18.2617 39.8536 18.0512C39.596 18 39.2863 18 38.6667 18Z" stroke="white" stroke-width="1.15" stroke-linecap="round"/>
+<path d="M38.6667 28.666H21.3333C20.7138 28.666 20.404 28.666 20.1464 28.7172C19.0886 28.9276 18.2617 29.7545 18.0512 30.8124C18 31.07 18 31.3797 18 31.9993C18 32.6189 18 32.9287 18.0512 33.1863C18.2617 34.2441 19.0886 35.0711 20.1464 35.2815C20.404 35.3327 20.7138 35.3327 21.3333 35.3327H38.6667C39.2863 35.3327 39.596 35.3327 39.8536 35.2815C40.9115 35.0711 41.7384 34.2441 41.9488 33.1863C42 32.9287 42 32.6189 42 31.9993C42 31.3797 42 31.07 41.9488 30.8124C41.7384 29.7545 40.9115 28.9276 39.8536 28.7172C39.596 28.666 39.2863 28.666 38.6667 28.666Z" stroke="white" stroke-width="1.15" stroke-linecap="round"/>
+<path d="M30.0013 39.334V42.0007M20.668 42.0007H39.3346" stroke="white" stroke-width="1.15" stroke-linecap="round"/>
+<path d="M22 32H22.0133" stroke="white" stroke-width="1.15" stroke-linecap="round"/>
+<path d="M22 21.334H22.0133" stroke="white" stroke-width="1.15" stroke-linecap="round"/>
+<path d="M26 32H26.0133" stroke="white" stroke-width="1.15" stroke-linecap="round"/>
+<path d="M26 21.334H26.0133" stroke="white" stroke-width="1.15" stroke-linecap="round"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_4056_1778_clip_path" transform="translate(4 4)"><rect width="60" height="60" rx="8"/>
+</clipPath></defs>
+</svg>

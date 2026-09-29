@@ -10,7 +10,6 @@ import {
   ChartLineUp,
   Compass,
   PuzzlePiece,
-  Target,
   Wrench,
 } from "@phosphor-icons/react";
 
@@ -47,7 +46,15 @@ const ITEM_VARIANTS = {
  * already uses elsewhere, reused here rather than reinvented). Content
  * staggers in on open (skipped under `prefers-reduced-motion`, where it
  * simply appears); the parent (site-header) owns open state, hover
- * intent, Escape handling and focus return.
+ * intent, Escape handling, click-outside and focus return.
+ *
+ * Every panel below is built from one data-driven card
+ * (`MegaMenuCard`) instead of five bespoke layouts — icon, title, an
+ * optional one-line description and an arrow that shifts on hover, the
+ * same shape the "Deep Engineering on Leading Platforms" cards on the
+ * redesign reference use (soft resting border, a firmer border + lift on
+ * hover, no bounce/glassmorphism/neon), adapted to this project's own
+ * tokens rather than copied.
  */
 export function MegaMenu({
   menu,
@@ -84,7 +91,7 @@ export function MegaMenu({
       exit={reduce ? undefined : { opacity: 0, y: -8, scale: 0.99 }}
       transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
       style={{ zIndex: Z.megaMenu }}
-      className="absolute inset-x-0 top-full hidden justify-center px-4 pt-3 lg:flex"
+      className="absolute inset-x-0 top-full hidden justify-center px-4 pt-3 xl:flex"
     >
       <div
         ref={panelRef}
@@ -112,7 +119,7 @@ export function MegaMenu({
           initial={reduce ? false : "hidden"}
           animate="visible"
           variants={PANEL_VARIANTS}
-          className="relative p-8"
+          className="relative max-h-[75vh] overflow-y-auto p-8"
         >
           {menu === "expertise" ? (
             <ExpertisePanel onNavigate={onNavigate} />
@@ -131,29 +138,92 @@ export function MegaMenu({
   );
 }
 
+/**
+ * One card, reused by every panel: a small icon badge, a title with an
+ * arrow that shifts right on hover, and an optional one-line description.
+ * Resting state is a transparent border on the panel's own surface;
+ * hovering firms the border, tints the background, lifts the card ~2px
+ * and puts a soft accent ring behind the icon — deliberately restrained
+ * next to the reference site's own hover (no scale-bounce, no
+ * grayscale-to-color reveal, no glassmorphism), and entirely
+ * `transition-*` based, no per-card JS.
+ */
+function MegaMenuCard({
+  href,
+  icon,
+  iconElement,
+  label,
+  description,
+  onNavigate,
+  compact = false,
+}: {
+  href: string;
+  icon?: string;
+  iconElement?: React.ReactNode;
+  label: string;
+  description?: string;
+  onNavigate: () => void;
+  compact?: boolean;
+}) {
+  return (
+    <motion.a
+      href={href}
+      onClick={onNavigate}
+      variants={ITEM_VARIANTS}
+      className={cn(
+        "group flex flex-col gap-3 rounded-[var(--radius-control)] border border-transparent transition-[background-color,border-color,transform] duration-200 ease-out hover:-translate-y-[2px] hover:border-line hover:bg-surface-2",
+        compact ? "p-3" : "p-4",
+      )}
+    >
+      <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent transition-shadow duration-200 group-hover:shadow-[0_0_0_4px_color-mix(in_oklab,var(--accent)_14%,transparent)]">
+        {icon ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={icon}
+            alt=""
+            aria-hidden="true"
+            width={18}
+            height={18}
+            className="size-[18px] object-contain"
+          />
+        ) : (
+          iconElement
+        )}
+      </span>
+      <span className="flex flex-col gap-1">
+        <span className="flex items-center gap-1.5 text-[0.9375rem] font-medium text-ink transition-colors duration-200 group-hover:text-accent">
+          {label}
+          <ArrowUpRight
+            size={13}
+            weight="bold"
+            aria-hidden="true"
+            className="shrink-0 text-muted transition-[transform,color] duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
+          />
+        </span>
+        {description ? (
+          <span className="block text-sm leading-snug text-muted transition-colors duration-200 group-hover:text-ink/80">
+            {description}
+          </span>
+        ) : null}
+      </span>
+    </motion.a>
+  );
+}
+
 function ExpertisePanel({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <div className="grid grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
       {expertiseMenu.map((item, i) => {
         const Icon = EXPERTISE_ICONS[i % EXPERTISE_ICONS.length];
         return (
-          <motion.a
+          <MegaMenuCard
             key={item.label}
             href={item.href}
-            onClick={onNavigate}
-            variants={ITEM_VARIANTS}
-            className="group flex flex-col gap-3 rounded-[var(--radius-control)] border border-transparent p-4 transition-colors duration-200 hover:border-line hover:bg-surface-2"
-          >
-            <span className="inline-flex size-9 items-center justify-center rounded-full bg-accent-soft text-accent">
-              <Icon size={17} weight="regular" aria-hidden="true" />
-            </span>
-            <span className="block text-[0.9375rem] font-medium text-ink transition-colors group-hover:text-accent">
-              {item.label}
-            </span>
-            <span className="block text-sm leading-snug text-muted">
-              {item.description}
-            </span>
-          </motion.a>
+            label={item.label}
+            description={item.description}
+            onNavigate={onNavigate}
+            iconElement={<Icon size={17} weight="regular" aria-hidden="true" />}
+          />
         );
       })}
     </div>
@@ -162,52 +232,52 @@ function ExpertisePanel({ onNavigate }: { onNavigate: () => void }) {
 
 function SolutionsPanel({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <div className="grid grid-cols-12 gap-x-10 gap-y-8">
+    <div className="flex flex-col gap-8">
       {solutionsMenu.map((column) => (
-        <div key={column.heading} className="col-span-3">
-          <p className="mb-4 text-sm font-semibold text-ink">{column.heading}</p>
-          <ul className="flex flex-col gap-1">
+        <div key={column.heading}>
+          <p className="mb-3 text-sm font-semibold text-ink">{column.heading}</p>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
             {column.links.map((link) => (
-              <motion.li key={link.label} variants={ITEM_VARIANTS}>
-                <a
-                  href={link.href}
-                  onClick={onNavigate}
-                  className="group block rounded-[var(--radius-control)] px-3 py-2 -mx-3 text-[0.9375rem] font-medium text-ink transition-colors duration-200 hover:bg-surface-2 hover:text-accent"
-                >
-                  {link.label}
-                </a>
-              </motion.li>
+              <MegaMenuCard
+                key={link.label}
+                href={link.href}
+                label={link.label}
+                description={link.description}
+                icon={link.icon}
+                onNavigate={onNavigate}
+                compact
+              />
             ))}
-          </ul>
+          </div>
         </div>
       ))}
 
       <Link
         href={`/work/${featured.id}`}
         onClick={onNavigate}
-        className="group col-span-3 overflow-hidden rounded-[var(--radius-surface)] border border-line bg-canvas transition-colors duration-200 hover:border-line-strong"
+        className="group flex items-center gap-5 overflow-hidden rounded-[var(--radius-surface)] border border-line bg-canvas p-4 transition-colors duration-200 hover:border-line-strong"
       >
-        <div className="relative aspect-[16/9] w-full overflow-hidden">
+        <div className="relative aspect-[16/9] w-40 shrink-0 overflow-hidden rounded-[var(--radius-control)]">
           <Image
             src={featured.image.src}
             alt={featured.image.alt}
             fill
-            sizes="320px"
+            sizes="160px"
             className="object-cover transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
           />
         </div>
-        <div className="p-5">
+        <div className="min-w-0 flex-1">
           <p className="text-sm text-muted">{featured.client}</p>
-          <p className="mt-1.5 text-[0.9375rem] font-medium leading-snug text-ink text-pretty">
+          <p className="mt-1 text-[0.9375rem] font-medium leading-snug text-ink text-pretty">
             {featured.title}
           </p>
-          <ArrowUpRight
-            size={16}
-            weight="regular"
-            aria-hidden="true"
-            className="mt-3 text-accent transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
         </div>
+        <ArrowUpRight
+          size={16}
+          weight="regular"
+          aria-hidden="true"
+          className="shrink-0 text-accent transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+        />
       </Link>
     </div>
   );
@@ -215,53 +285,33 @@ function SolutionsPanel({ onNavigate }: { onNavigate: () => void }) {
 
 function IndustriesPanel({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <ul className="grid grid-cols-3 gap-x-10 gap-y-1">
+    <div className="grid grid-cols-2 gap-2 lg:grid-cols-3">
       {industries.map((industry) => (
-        <motion.li key={industry.id} variants={ITEM_VARIANTS}>
-          <a
-            href={industry.href}
-            onClick={onNavigate}
-            className="group flex gap-3 rounded-[var(--radius-control)] px-3 py-3 -mx-3 transition-colors duration-200 hover:bg-surface-2"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={industry.icon}
-              alt=""
-              aria-hidden="true"
-              width={32}
-              height={32}
-              className="mt-0.5 size-8 shrink-0"
-            />
-            <span className="block">
-              <span className="block text-[0.9375rem] font-medium text-ink transition-colors group-hover:text-accent">
-                {industry.name}
-              </span>
-              <span className="mt-0.5 block max-w-[38ch] text-sm leading-snug text-muted">
-                {industry.body}
-              </span>
-            </span>
-          </a>
-        </motion.li>
+        <MegaMenuCard
+          key={industry.id}
+          href={industry.href}
+          label={industry.name}
+          description={industry.body}
+          icon={industry.icon}
+          onNavigate={onNavigate}
+        />
       ))}
-    </ul>
+    </div>
   );
 }
 
 function PartnersPanel({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <div className="grid grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
       {partnersMenu.map((partner) => (
-        <motion.a
+        <MegaMenuCard
           key={partner.name}
           href={partner.href}
-          onClick={onNavigate}
-          variants={ITEM_VARIANTS}
-          className="group flex h-24 items-center justify-center rounded-[var(--radius-surface)] border border-line bg-canvas px-4 text-center transition-colors duration-200 hover:border-line-strong"
-        >
-          <span className="text-base font-semibold text-ink transition-colors group-hover:text-accent">
-            {partner.name}
-          </span>
-        </motion.a>
+          label={partner.name}
+          description={partner.description}
+          icon={partner.icon}
+          onNavigate={onNavigate}
+        />
       ))}
     </div>
   );
@@ -269,26 +319,17 @@ function PartnersPanel({ onNavigate }: { onNavigate: () => void }) {
 
 function InsightsPanel({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <ul className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-2 gap-2 lg:grid-cols-3">
       {insightsMenu.map((item) => (
-        <motion.li key={item.label} variants={ITEM_VARIANTS}>
-          <a
-            href={item.href}
-            onClick={onNavigate}
-            className="group flex items-center justify-between rounded-[var(--radius-control)] px-4 py-3.5 transition-colors duration-200 hover:bg-surface-2"
-          >
-            <span className="text-[0.9375rem] font-medium text-ink transition-colors group-hover:text-accent">
-              {item.label}
-            </span>
-            <ArrowUpRight
-              size={15}
-              weight="regular"
-              aria-hidden="true"
-              className="text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
-            />
-          </a>
-        </motion.li>
+        <MegaMenuCard
+          key={item.label}
+          href={item.href}
+          label={item.label}
+          description={item.description}
+          icon={item.icon}
+          onNavigate={onNavigate}
+        />
       ))}
-    </ul>
+    </div>
   );
 }

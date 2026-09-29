@@ -1,10 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, useReducedMotion } from "motion/react";
-import { ArrowUpRight, CaretDown, List } from "@phosphor-icons/react";
+import { usePathname } from "next/navigation";
+import {
+  AnimatePresence,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "motion/react";
+import { ArrowUpRight } from "@phosphor-icons/react";
 
-import { NAV_CTA, brand, navLinks, type NavMenuKey } from "@/lib/content";
+import { NAV_CTA, brand, type NavMenuKey } from "@/lib/content";
+import { DesktopNav } from "@/components/layout/desktop-nav";
+import { MenuButton } from "@/components/layout/menu-button";
 import { MegaMenu } from "@/components/layout/mega-menu";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
@@ -12,29 +20,64 @@ import { Wordmark } from "@/components/ui/wordmark";
 import { Z } from "@/lib/z-index";
 import { cn } from "@/lib/utils";
 
+/** Which mega-menu "owns" a given route, for the active-section
+ * indicator — independent of hover/open state. Routes not covered
+ * (the home page, case-study pages) simply have no active item, which
+ * is correct: none of the five menus is "the" section for them. */
+function menuKeyForPathname(pathname: string): NavMenuKey | null {
+  if (pathname.startsWith("/industries/")) return "industries";
+  if (pathname.startsWith("/partners-")) return "partners";
+  if (pathname.startsWith("/insights/")) return "insights";
+  return null;
+}
+
 /**
- * Sticky site header: a full-width bar with a single bottom border and a
- * constant backdrop blur/translucency, rather than a floating rounded
- * pill — a plainer, more enterprise treatment that doesn't morph on
- * scroll.
+ * Sticky site header — one responsive system with two tiers, matching
+ * the reference redesign's own navbar (which uses exactly one
+ * breakpoint, `lg`/1024px, and nothing narrower than that shows a
+ * reduced desktop nav — just logo + menu button):
  *
- * Every nav item is a mega-menu trigger (the live site's own five:
- * Our Expertise, Solutions, Industries, Partners, Insights — see
- * lib/content.ts), open on hover with a short close-delay so moving from
- * the trigger into the panel doesn't dismiss it, and on click/focus for
- * keyboard and touch. Escape closes the open panel and returns focus to
- * its trigger.
+ *   xl (1280px+)   DesktopNav: full five-item mega-menu bar
+ *   below xl       logo + compact CTA + menu button only; every menu
+ *                  is reached through MobileNav's own full panel
+ *
+ * (This project's breakpoint is `xl` rather than the reference's `lg`
+ * because "Our Expertise" is a longer label than any of the reference's
+ * five links — `xl` is where the full bar first has room for it
+ * alongside the CTA without crowding.) A partial/reduced nav tier
+ * between the two was tried and removed: the reference doesn't have
+ * one, and it doesn't fully solve anything the panel doesn't already
+ * cover.
+ *
+ * Scroll state is one discrete Motion event (crossing an 8px threshold),
+ * not a per-frame listener, so this re-renders once on crossing it
+ * rather than continuously: past that point the bar firms up (stronger
+ * blur/border, a solid-er surface, a touch shorter) instead of staying
+ * static, matching the plain content-height sections below it that
+ * don't otherwise announce "you've scrolled."
  */
 export function SiteHeader() {
   const reduce = useReducedMotion();
+  const pathname = usePathname();
+  const activeMenu = menuKeyForPathname(pathname ?? "");
+
   const [openMenu, setOpenMenu] = React.useState<NavMenuKey | null>(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
   const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const triggerRefs = React.useRef<Record<string, HTMLButtonElement | null>>(
     {},
   );
   const barRef = React.useRef<HTMLDivElement>(null);
+  const headerRef = React.useRef<HTMLElement>(null);
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
+
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const next = latest > 8;
+    setScrolled((current) => (current === next ? current : next));
+  });
 
   const clearCloseTimer = React.useCallback(() => {
     if (closeTimer.current) {
@@ -61,7 +104,46 @@ export function SiteHeader() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [openMenu]);
 
+  // Click (or tap) anywhere outside the header/panel closes it — the
+  // mouseleave-based scheduleClose above only fires when the pointer
+  // physically leaves the header, which a touch tap or a click that
+  // lands elsewhere without crossing that boundary wouldn't trigger.
+  React.useEffect(() => {
+    if (!openMenu) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (headerRef.current?.contains(event.target as Node)) return;
+      setOpenMenu(null);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [openMenu]);
+
   React.useEffect(() => clearCloseTimer, [clearCloseTimer]);
+
+  // Give focus back to the menu button once the sheet has closed.
+  const wasMobileOpen = React.useRef(false);
+  React.useEffect(() => {
+    if (wasMobileOpen.current && !mobileOpen) {
+      menuButtonRef.current?.focus();
+    }
+    wasMobileOpen.current = mobileOpen;
+  }, [mobileOpen]);
+
+  // Resizing past the `xl` breakpoint (desktop nav takes over) closes an
+  // open sheet/mega-menu instead of leaving it stranded underneath the
+  // desktop bar. A `matchMedia` change listener, not a `resize` listener
+  // — it only fires when the breakpoint is actually crossed, not on
+  // every pixel of a drag-resize.
+  React.useEffect(() => {
+    const query = window.matchMedia("(min-width: 1280px)");
+    const onChange = (event: MediaQueryListEvent) => {
+      if (!event.matches) return;
+      setMobileOpen(false);
+      setOpenMenu(null);
+    };
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
 
   const onBarPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     const node = barRef.current;
@@ -72,15 +154,24 @@ export function SiteHeader() {
 
   return (
     <header
+      ref={headerRef}
       style={{ zIndex: Z.stickyNav }}
       onMouseLeave={scheduleClose}
-      className="sticky top-0 w-full border-b border-line/60 bg-surface/85 backdrop-blur-md transition-colors duration-300"
+      className={cn(
+        "sticky top-0 w-full border-b transition-[background-color,border-color,backdrop-filter] duration-300",
+        scrolled
+          ? "border-line bg-surface/95 backdrop-blur-xl"
+          : "border-line/60 bg-surface/85 backdrop-blur-md",
+      )}
     >
       <div className="shell">
         <div
           ref={barRef}
           onPointerMove={onBarPointerMove}
-          className="group/bar relative isolate flex h-16 items-center justify-between gap-6"
+          className={cn(
+            "group/bar relative isolate flex items-center justify-between gap-3 transition-[height] duration-300 sm:gap-6",
+            scrolled ? "h-14" : "h-16",
+          )}
         >
           {/* Cursor-following wash across the whole bar. */}
           <span
@@ -94,85 +185,58 @@ export function SiteHeader() {
 
           <a
             href="/#top"
-            className="relative rounded-[var(--radius-control)]"
+            className="relative shrink-0 rounded-[var(--radius-control)]"
             aria-label={`${brand.fullName} home`}
           >
             <Wordmark />
           </a>
 
-          <nav aria-label="Primary" className="relative hidden lg:block">
-            <ul className="flex items-center gap-1">
-              {navLinks.map((link) => {
-                const isOpen = openMenu === link.menu;
-                const panelId = `mega-${link.menu}`;
-                const triggerId = `mega-trigger-${link.menu}`;
+          <DesktopNav
+            openMenu={openMenu}
+            activeMenu={activeMenu}
+            reduceMotion={reduce}
+            triggerRefs={triggerRefs}
+            onTriggerEnter={(menu) => {
+              clearCloseTimer();
+              setOpenMenu(menu);
+            }}
+            onTriggerFocus={setOpenMenu}
+            onTriggerClick={(menu) =>
+              setOpenMenu((current) => (current === menu ? null : menu))
+            }
+          />
 
-                return (
-                  <li key={link.label}>
-                    <button
-                      type="button"
-                      id={triggerId}
-                      ref={(node) => {
-                        triggerRefs.current[link.menu] = node;
-                      }}
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                      onMouseEnter={() => {
-                        clearCloseTimer();
-                        setOpenMenu(link.menu);
-                      }}
-                      onFocus={() => setOpenMenu(link.menu)}
-                      onClick={() => setOpenMenu(isOpen ? null : link.menu)}
-                      className={cn(
-                        "inline-flex h-9 items-center gap-1.5 rounded-lg px-3 py-2",
-                        "text-sm font-medium transition-colors duration-200",
-                        isOpen ? "text-accent" : "text-ink/85 hover:text-accent",
-                      )}
-                    >
-                      {link.label}
-                      <CaretDown
-                        size={13}
-                        weight="bold"
-                        className={cn(
-                          "transition-transform duration-300",
-                          isOpen && !reduce && "rotate-180",
-                        )}
-                      />
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-
-          <div className="relative flex items-center gap-2">
+          <div className="relative flex shrink-0 items-center gap-2">
             <ThemeToggle />
             <a
               href={NAV_CTA.href}
               target="_blank"
               rel="noreferrer"
+              aria-label={NAV_CTA.label}
               className={cn(
-                "group hidden h-8 items-center gap-1.5 rounded-lg px-3 text-sm font-medium sm:inline-flex",
-                "bg-accent text-accent-contrast dark:text-white shadow-md shadow-accent/20",
+                "group hidden items-center gap-1.5 rounded-lg text-sm font-medium",
+                "bg-accent text-accent-contrast shadow-md shadow-accent/20 dark:text-white",
                 "transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/35",
+                // Icon-only from `sm` (the compact tablet/mobile CTA); the
+                // full label only fits from `xl`, alongside DesktopNav.
+                "sm:inline-flex sm:size-9 sm:justify-center sm:px-0",
+                "xl:h-8 xl:w-auto xl:justify-start xl:px-3",
               )}
             >
-              {NAV_CTA.label}
+              <span className="hidden xl:inline">{NAV_CTA.label}</span>
               <ArrowUpRight
                 size={14}
                 weight="bold"
                 className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             </a>
-            <button
-              type="button"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open navigation"
-              aria-expanded={mobileOpen}
-              className="inline-flex size-9 items-center justify-center rounded-md border border-line text-ink active:translate-y-[1px] lg:hidden"
-            >
-              <List size={18} weight="regular" />
-            </button>
+            <MenuButton
+              ref={menuButtonRef}
+              open={mobileOpen}
+              onClick={() => setMobileOpen((current) => !current)}
+              aria-controls="mobile-nav-sheet"
+              className="xl:hidden"
+            />
           </div>
         </div>
       </div>

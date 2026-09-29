@@ -1,0 +1,13 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-4" y="-4" width="68" height="68"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(2px);clip-path:url(#bgblur_0_4056_1883_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="4">
+<rect width="60" height="60" rx="8" fill="#002060"/>
+<path d="M16.744 40.4987L19.3411 20.2675C19.5785 18.4186 20.0474 18 21.943 18C23.8385 18 24.3074 18.4186 24.5448 20.2675L27.3346 42H18.0812C17.3682 42 17.0118 42 16.8105 41.774C16.6093 41.5481 16.6542 41.1983 16.744 40.4987Z" stroke="white" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M27.5383 42.0007H42C42.6285 42.0007 42.9428 42.0007 43.1381 41.8055C43.3333 41.6101 43.3333 41.2959 43.3333 40.6673V23.334L37.5203 28.1783C36.5741 28.9667 36.1011 29.3608 35.7172 29.1811C35.3333 29.0012 35.3333 28.3855 35.3333 27.1539V23.334L29.4027 27.6472C28.7072 28.1531 28.3595 28.4059 27.9575 28.5367C27.5555 28.6673 27.1256 28.6673 26.2657 28.6673H26" stroke="white" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19.332 22H24.6654" stroke="white" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M30 34H32.6667" stroke="white" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M36.668 34H39.3346" stroke="white" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_4056_1883_clip_path" transform="translate(4 4)"><rect width="60" height="60" rx="8"/>
+</clipPath></defs>
+</svg>

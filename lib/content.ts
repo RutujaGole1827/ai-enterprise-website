@@ -386,7 +386,7 @@ export const insights = [
 
 export type MegaColumn = {
   heading: string;
-  links: { label: string; href: string; description?: string }[];
+  links: { label: string; href: string; description?: string; icon?: string }[];
 };
 
 export type ExpertiseItem = { label: string; description: string; href: string };
@@ -419,22 +419,77 @@ export const solutionsMenu: MegaColumn[] = [
   {
     heading: "Agentic AI & Data Platform Solutions",
     links: [
-      { label: "LakeHouseXponent", href: "#" },
-      { label: "MigrationXponent", href: "#" },
-      { label: "AIXponent", href: "#" },
+      {
+        label: "LakeHouseXponent",
+        href: "#",
+        description: "Unified data lake for AI-driven insights",
+        icon: "/brand/nav-solutions/lakehousexponent.svg",
+      },
+      {
+        label: "MigrationXponent",
+        href: "#",
+        description: "Seamless migration to modern AI platforms",
+        icon: "/brand/nav-solutions/migrationxponent.svg",
+      },
+      {
+        label: "AIXponent",
+        href: "#",
+        description: "Agentic AI platform for enterprise growth",
+        icon: "/brand/nav-solutions/aixponent.svg",
+      },
     ],
   },
   {
     heading: "AI Solutions",
     links: [
-      { label: "LogisticsXponent", href: "#" },
-      { label: "Asset ManagementXponent", href: "#" },
-      { label: "WealthXponent", href: "#" },
-      { label: "OneTap", href: "#" },
-      { label: "Smart ManufacturingXponent", href: "#" },
-      { label: "PSI", href: "#" },
-      { label: "GenTrust", href: "#" },
-      { label: "PMOXponent", href: "#" },
+      {
+        label: "LogisticsXponent",
+        href: "#",
+        description: "AI-powered logistics for smarter supply chains",
+        icon: "/brand/nav-solutions/logisticsxponent.svg",
+      },
+      {
+        label: "Asset ManagementXponent",
+        href: "#",
+        description: "Intelligent asset lifecycle optimization",
+        icon: "/brand/nav-solutions/asset-management-xponent.svg",
+      },
+      {
+        label: "WealthXponent",
+        href: "#",
+        description: "AI-driven wealth management for BFSI",
+        icon: "/brand/nav-solutions/wealth-xponent.svg",
+      },
+      {
+        label: "OneTap",
+        href: "#",
+        description: "Instant AI insights to close deals faster",
+        icon: "/brand/nav-solutions/onetap.svg",
+      },
+      {
+        label: "Smart ManufacturingXponent",
+        href: "#",
+        description: "AI assistant for agile manufacturing ops",
+        icon: "/brand/nav-solutions/smart-manufacturing-xponent.svg",
+      },
+      {
+        label: "PSI",
+        href: "#",
+        description: "Predictive simulation for planning precision",
+        icon: "/brand/nav-solutions/psi.svg",
+      },
+      {
+        label: "GenTrust",
+        href: "#",
+        description: "Your AI Governance & Validation Framework",
+        icon: "/brand/nav-solutions/gentrust.avif",
+      },
+      {
+        label: "PMOXponent",
+        href: "#",
+        description: "Smarter project orchestration powered by AI",
+        icon: "/brand/nav-solutions/pmoxponent.png",
+      },
     ],
   },
   {
@@ -443,30 +498,97 @@ export const solutionsMenu: MegaColumn[] = [
       {
         label: "Agentic AI for CPG",
         href: "/industries/exponentia-for-cpg-sector",
+        description: "AI for consumer goods innovation",
+        icon: "/brand/nav-solutions/cpg.svg",
       },
-      { label: "Agentic AI for Manufacturing", href: "#" },
-      { label: "Agentic AI for BFSI", href: "#" },
+      {
+        label: "Agentic AI for Manufacturing",
+        href: "#",
+        description: "Agentic AI driving factory efficiency",
+        icon: "/brand/nav-solutions/manufacturing.svg",
+      },
+      {
+        label: "Agentic AI for BFSI",
+        href: "#",
+        description: "AI agents for financial service automation",
+        icon: "/brand/nav-solutions/bfsi.svg",
+      },
     ],
   },
 ];
 
-export type PartnerLink = { name: string; href: string };
+export type PartnerLink = {
+  name: string;
+  href: string;
+  description?: string;
+  icon?: string;
+};
 
 export const partnersMenu: PartnerLink[] = [
-  { name: "Databricks", href: "/partners-databricks" },
-  { name: "Microsoft", href: "/partners-microsoft" },
-  { name: "Amazon Web Services", href: "#" },
-  { name: "Qlik", href: "#" },
+  {
+    name: "Databricks",
+    href: "/partners-databricks",
+    description: "Unify Data. Accelerate AI.",
+    icon: "/brand/partners/databricks.svg",
+  },
+  {
+    name: "Microsoft",
+    href: "/partners-microsoft",
+    description: "AI-Powered Business Intelligence",
+    icon: "/brand/partners/microsoft.svg",
+  },
+  {
+    name: "Amazon Web Services",
+    href: "#",
+    description: "AI at Cloud Scale",
+    icon: "/brand/partners/aws.svg",
+  },
+  {
+    name: "Qlik",
+    href: "#",
+    description: "AI-Ready Data. Trusted Insights.",
+    icon: "/brand/partners/qlik.svg",
+  },
 ];
 
-export type InsightLink = { label: string; href: string };
+export type InsightLink = {
+  label: string;
+  href: string;
+  description?: string;
+  icon?: string;
+};
 
 export const insightsMenu: InsightLink[] = [
-  { label: "Client Success Stories", href: "/#case-studies" },
-  { label: "Blogs", href: "/#insights" },
-  { label: "Webinars", href: "#" },
-  { label: "Downloads", href: "#" },
-  { label: "News & PR", href: "#" },
+  {
+    label: "Client Success Stories",
+    href: "/#case-studies",
+    description: "Real-world impact from data-driven success",
+    icon: "/brand/nav-insights/client-success-stories.svg",
+  },
+  {
+    label: "Blogs",
+    href: "/#insights",
+    description: "Insights and trends from our data experts",
+    icon: "/brand/nav-insights/blogs.svg",
+  },
+  {
+    label: "Webinars",
+    href: "#",
+    description: "Expert-led sessions on data & AI innovation",
+    icon: "/brand/nav-insights/webinars.svg",
+  },
+  {
+    label: "Downloads",
+    href: "#",
+    description: "Brochures, assets & downloads",
+    icon: "/brand/nav-insights/downloads.svg",
+  },
+  {
+    label: "News & PR",
+    href: "#",
+    description: "News, media & press releases",
+    icon: "/brand/nav-insights/news.svg",
+  },
 ];
 
 /** The navbar's own CTA — a different destination and label from
