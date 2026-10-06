@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
@@ -44,6 +45,18 @@ export type NavItem = {
   /** A plain link when there's nothing to open under it. */
   href?: string;
   subMenus?: NavSubMenu[];
+  /** A "View all →" row along the bottom of the panel. Omitted for a
+   * menu with no real index page of its own to send someone to. */
+  viewAllHref?: string;
+  viewAllLabel?: string;
+  /** An optional visual anchor for the panel — a real image, not a
+   * generic icon, in its own column alongside the link groups. */
+  featured?: {
+    label: string;
+    title: string;
+    href: string;
+    image: { src: string; alt: string };
+  };
 };
 
 export type DropdownNavigationProps = {
@@ -197,14 +210,24 @@ export function DropdownNavigation({
                   style={{ zIndex: Z.megaMenu }}
                   className={cn(
                     "absolute left-1/2 top-full mt-3 -translate-x-1/2 rounded-[20px] border border-line",
-                    "bg-surface/98 p-6 shadow-[var(--shadow-lift)] backdrop-blur-2xl",
-                    columns > 1 ? "w-[min(92vw,720px)]" : "w-[min(92vw,340px)]",
+                    "bg-surface/98 p-7 shadow-[var(--shadow-lift)] backdrop-blur-2xl",
+                    item.featured
+                      ? "w-[min(92vw,860px)]"
+                      : columns > 1
+                        ? "w-[min(92vw,720px)]"
+                        : "w-[min(92vw,340px)]",
                   )}
                 >
                   <div
                     className={cn(
                       "grid gap-x-8 gap-y-6",
-                      columns > 2 ? "sm:grid-cols-3" : columns > 1 ? "sm:grid-cols-2" : "grid-cols-1",
+                      item.featured
+                        ? "sm:grid-cols-[1fr_1fr_1fr_15rem]"
+                        : columns > 2
+                          ? "sm:grid-cols-3"
+                          : columns > 1
+                            ? "sm:grid-cols-2"
+                            : "grid-cols-1",
                     )}
                   >
                     {item.subMenus!.map((group, groupIndex) => (
@@ -256,7 +279,50 @@ export function DropdownNavigation({
                         </ul>
                       </div>
                     ))}
+
+                    {item.featured ? (
+                      <Link
+                        href={item.featured.href}
+                        onClick={() => setOpenId(null)}
+                        className="group/featured flex flex-col overflow-hidden rounded-2xl border border-line transition-colors duration-200 hover:border-line-strong"
+                      >
+                        <div className="relative aspect-[4/3] w-full overflow-hidden bg-canvas">
+                          <Image
+                            src={item.featured.image.src}
+                            alt={item.featured.image.alt}
+                            fill
+                            sizes="240px"
+                            className="object-cover transition-transform duration-300 ease-out group-hover/featured:scale-[1.04]"
+                          />
+                        </div>
+                        <div className="p-4">
+                          <p className="text-xs font-medium text-muted">
+                            {item.featured.label}
+                          </p>
+                          <p className="mt-1 text-sm font-medium leading-snug text-ink">
+                            {item.featured.title}
+                          </p>
+                        </div>
+                      </Link>
+                    ) : null}
                   </div>
+
+                  {item.viewAllHref ? (
+                    <div className="mt-6 border-t border-line pt-4">
+                      <Link
+                        href={item.viewAllHref}
+                        onClick={() => setOpenId(null)}
+                        className="group/all inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors duration-200 hover:text-accent"
+                      >
+                        {item.viewAllLabel ?? `View all ${item.label.toLowerCase()}`}
+                        <ChevronDown
+                          size={13}
+                          strokeWidth={2}
+                          className="-rotate-90 transition-transform duration-200 group-hover/all:translate-x-0.5"
+                        />
+                      </Link>
+                    </div>
+                  ) : null}
                 </motion.div>
               ) : null}
             </AnimatePresence>

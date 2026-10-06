@@ -50,7 +50,7 @@ export default async function InsightPage({
       <article className="border-b border-line">
         <div className="shell pb-16 pt-12 md:pb-20 md:pt-16">
           <Link
-            href="/#insights"
+            href="/insights"
             className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
           >
             <ArrowLeft size={16} weight="regular" aria-hidden="true" />

@@ -561,31 +561,31 @@ export type InsightLink = {
 export const insightsMenu: InsightLink[] = [
   {
     label: "Client Success Stories",
-    href: "/#case-studies",
+    href: "/insights?type=story",
     description: "Real-world impact from data-driven success",
     icon: "/brand/nav-insights/client-success-stories.svg",
   },
   {
     label: "Blogs",
-    href: "/#insights",
+    href: "/insights?type=blog",
     description: "Insights and trends from our data experts",
     icon: "/brand/nav-insights/blogs.svg",
   },
   {
     label: "Webinars",
-    href: "#",
+    href: "/insights?type=webinar",
     description: "Expert-led sessions on data & AI innovation",
     icon: "/brand/nav-insights/webinars.svg",
   },
   {
     label: "Downloads",
-    href: "#",
+    href: "/insights?type=report",
     description: "Brochures, assets & downloads",
     icon: "/brand/nav-insights/downloads.svg",
   },
   {
     label: "News & PR",
-    href: "#",
+    href: "/insights?type=news",
     description: "News, media & press releases",
     icon: "/brand/nav-insights/news.svg",
   },

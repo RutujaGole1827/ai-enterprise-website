@@ -7,6 +7,7 @@ import {
 } from "@phosphor-icons/react";
 
 import {
+  caseStudies,
   expertiseMenu,
   industries,
   insightsMenu,
@@ -16,6 +17,8 @@ import {
   type NavMenuKey,
 } from "@/lib/content";
 import type { NavItem } from "@/components/ui/dorpdown-navigation";
+
+const featuredCaseStudy = caseStudies.find((entry) => entry.featured) ?? caseStudies[0];
 
 /** "Our Expertise" has no per-item image asset of its own (unlike
  * Solutions/Industries/Partners/Insights, each of which carries a real
@@ -65,6 +68,14 @@ export const navigation: NavItem[] = navLinks.map((link, index) => {
             iconSrc: item.icon,
           })),
         })),
+        viewAllHref: link.href,
+        viewAllLabel: "View all solutions",
+        featured: {
+          label: featuredCaseStudy.client,
+          title: featuredCaseStudy.title,
+          href: `/work/${featuredCaseStudy.id}`,
+          image: featuredCaseStudy.image,
+        },
       };
 
     case "industries":
@@ -81,6 +92,8 @@ export const navigation: NavItem[] = navLinks.map((link, index) => {
             })),
           },
         ],
+        viewAllHref: link.href,
+        viewAllLabel: "View all industries",
       };
 
     case "partners":
@@ -113,6 +126,8 @@ export const navigation: NavItem[] = navLinks.map((link, index) => {
             })),
           },
         ],
+        viewAllHref: link.href,
+        viewAllLabel: "View all insights",
       };
 
     default: {

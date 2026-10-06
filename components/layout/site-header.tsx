@@ -103,7 +103,7 @@ export function SiteHeader() {
     <header
       style={{ zIndex: Z.stickyNav }}
       className={cn(
-        "sticky top-0 w-full border-b transition-[background-color,border-color,backdrop-filter] duration-300",
+        "sticky top-0 w-full border-b transition-[background-color,border-color,backdrop-filter] duration-200",
         scrolled
           ? "border-line bg-surface/95 backdrop-blur-xl"
           : "border-line/60 bg-surface/85 backdrop-blur-md",
@@ -114,14 +114,14 @@ export function SiteHeader() {
           ref={barRef}
           onPointerMove={onBarPointerMove}
           className={cn(
-            "group/bar relative isolate flex items-center justify-between gap-3 transition-[height] duration-300 sm:gap-6",
+            "group/bar relative isolate flex items-center justify-between gap-3 transition-[height] duration-200 sm:gap-6",
             scrolled ? "h-14" : "h-16",
           )}
         >
           {/* Cursor-following wash across the whole bar. */}
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/bar:opacity-100"
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover/bar:opacity-100"
             style={{
               background:
                 "radial-gradient(16rem circle at var(--nav-spot-x, 50%) 0%, color-mix(in oklab, var(--accent) 6%, transparent), transparent 70%)",
@@ -158,7 +158,7 @@ export function SiteHeader() {
               <ArrowUpRight
                 size={14}
                 weight="bold"
-                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             </a>
             <MenuButton
